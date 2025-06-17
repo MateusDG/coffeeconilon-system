@@ -28,3 +28,4 @@ class StockUpdate(BaseModel):
     quantity: Optional[Decimal]
     unit: Optional[str]
     date: Optional[date]
+

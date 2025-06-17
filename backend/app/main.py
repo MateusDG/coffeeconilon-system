@@ -5,19 +5,33 @@ from app.core.config import settings
 from app.core.database import Base, engine
 
 # 1) Importa todos os modelos para que o SQLAlchemy conheça as classes
-#    antes de executarmos o create_all().
 import app.models  # noqa
 
-# 2) Importa o router de usuários
+# Importa routers
 from app.api.v1.endpoints.users import router as users_router
+from app.api.v1.endpoints.farms import router as farms_router
+from app.api.v1.endpoints.lots import router as lots_router
+from app.api.v1.endpoints.crops import router as crops_router
+from app.api.v1.endpoints.financial import router as financial_router
+from app.api.v1.endpoints.stocks import router as stocks_router
+from app.api.v1.endpoints.reports import router as reports_router
 
-# 3) Cria a aplicação FastAPI
 app = FastAPI(title=settings.PROJECT_NAME)
 
-# 4) Cria **todas** as tabelas no banco (SQLite, no seu caso)
+# Cria as tabelas no banco
 Base.metadata.create_all(bind=engine)
 
-# 6) Endpoint de health-check
+# Inclui routers
+app.include_router(users_router)
+app.include_router(farms_router)
+app.include_router(lots_router)
+app.include_router(crops_router)
+app.include_router(financial_router)
+app.include_router(stocks_router)
+app.include_router(reports_router)
+
+
 @app.get("/ping", tags=["health"])
 def ping():
     return {"message": "pong"}
+

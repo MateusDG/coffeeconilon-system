@@ -22,3 +22,4 @@ class LotUpdate(BaseModel):
     name: Optional[str]
     area_ha: Optional[float]
     crop_year: Optional[int]
+

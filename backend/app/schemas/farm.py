@@ -3,12 +3,15 @@
 from pydantic import BaseModel
 from typing import Optional
 
+
 class FarmBase(BaseModel):
     name: str
     location: Optional[str]
 
+
 class FarmCreate(FarmBase):
-    pass
+    owner_id: int
+
 
 class FarmRead(FarmBase):
     id: int
@@ -17,6 +20,8 @@ class FarmRead(FarmBase):
     class Config:
         orm_mode = True
 
+
 class FarmUpdate(BaseModel):
     name: Optional[str]
     location: Optional[str]
+
