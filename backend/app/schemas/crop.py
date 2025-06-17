@@ -23,3 +23,4 @@ class CropUpdate(BaseModel):
     planted_date: Optional[date]
     harvested_date: Optional[date]
     yield_bags: Optional[float]
+

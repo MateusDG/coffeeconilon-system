@@ -30,3 +30,4 @@ class FinancialUpdate(BaseModel):
     description: Optional[str]
     value: Optional[Decimal]
     date: Optional[date]
+
