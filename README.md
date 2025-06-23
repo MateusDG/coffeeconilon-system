@@ -6,20 +6,20 @@
 
 ### **1. Configuração Básica (Backend)**
 
-* [ ] Preencher e revisar `backend/requirements.txt`
+* [X] Preencher e revisar `backend/requirements.txt`
 * [ ] Ajustar `backend/Dockerfile` (ambiente Python + dependências)
-* [ ] Criar `.env` (variáveis: DB, SECRET, etc)
-* [ ] Implementar `backend/app/core/config.py`
-* [ ] Implementar `backend/app/core/database.py`
-* [ ] Implementar `backend/app/main.py` com FastAPI rodando `/ping`
+* [X] Criar `.env` (variáveis: DB, SECRET, etc)
+* [X] Implementar `backend/app/core/config.py`
+* [X] Implementar `backend/app/core/database.py`
+* [X] Implementar `backend/app/main.py` com FastAPI rodando `/ping`
 
 ---
 
 ### **2. Módulo Usuários & Autenticação**
 
-* [ ] Modelar `User` em `models/user.py`
-* [ ] Criar schema em `schemas/user.py` e `schemas/token.py`
-* [ ] CRUD básico de usuário em `crud/crud_user.py`
+* [X] Modelar `User` em `models/user.py`
+* [X] Criar schema em `schemas/user.py` e `schemas/token.py`
+* [X] CRUD básico de usuário em `crud/crud_user.py`
 * [ ] Rotas de autenticação/registro em `api/v1/endpoints/auth.py`
 * [ ] JWT/OAuth2 em `core/security.py`
 * [ ] Testar autenticação e CRUD via Swagger UI
@@ -28,20 +28,20 @@
 
 ### **3. Propriedades e Talhões (Fazenda, Lote, Safra)**
 
-* [ ] Modelar `Farm`, `Lot`, `Crop` (`models/farm.py`, `lot.py`, `crop.py`)
-* [ ] Schemas e CRUD correspondentes
-* [ ] Rotas de cadastro/consulta/edição (endpoints)
-* [ ] Relacionar usuário responsável (foreign keys)
+* [X] Modelar `Farm`, `Lot`, `Crop` (`models/farm.py`, `lot.py`, `crop.py`)
+* [X] Schemas e CRUD correspondentes
+* [X] Rotas de cadastro/consulta/edição (endpoints)
+* [X] Relacionar usuário responsável (foreign keys)
 * [ ] Testar criação de fazenda/lote
 
 ---
 
 ### **4. Módulo Financeiro**
 
-* [ ] Modelar `Financial` (`models/financial.py`)
-* [ ] Criar schemas de lançamentos financeiros
-* [ ] CRUD financeiro + regras de categorização (fixo/variável)
-* [ ] Endpoints de lançamento/listagem/edição
+* [X] Modelar `Financial` (`models/financial.py`)
+* [X] Criar schemas de lançamentos financeiros
+* [X] CRUD financeiro + regras de categorização (fixo/variável)
+* [X] Endpoints de lançamento/listagem/edição
 * [ ] Integração financeira com safra/lote (vínculo ao registro)
 * [ ] Primeiros relatórios simples: resumo de entradas/saídas
 
@@ -49,10 +49,10 @@
 
 ### **5. Controle de Estoque**
 
-* [ ] Modelar `Stock` (`models/stock.py`)
-* [ ] Schemas de movimentação (entrada/saída/perda)
-* [ ] CRUD de estoque
-* [ ] Endpoints de lançamento e consulta
+* [X] Modelar `Stock` (`models/stock.py`)
+* [X] Schemas de movimentação (entrada/saída/perda)
+* [X] CRUD de estoque
+* [X] Endpoints de lançamento e consulta
 * [ ] Relatórios básicos de saldo de estoque
 
 ---
