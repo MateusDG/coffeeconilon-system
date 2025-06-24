@@ -31,8 +31,6 @@ def login(data: LoginRequest, db: Session = Depends(get_db)):
         )
     access_token = create_access_token({"sub": str(user.id)})
     return {"access_token": access_token, "token_type": "bearer"}
-    return {"access_token": access_token, "token_type": "bearer"}
-
 
 @router.post("/register", response_model=Token, status_code=status.HTTP_201_CREATED)
 def register(data: UserCreate, db: Session = Depends(get_db)):
