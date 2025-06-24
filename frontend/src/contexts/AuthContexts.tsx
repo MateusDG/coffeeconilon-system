@@ -26,8 +26,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const register = async (name: string, email: string, password: string) => {
-    await registerRequest({ name, email, password });
-    await login(email, password);
+    const t = await registerRequest({ name, email, password });
+    setToken(t);
+    localStorage.setItem('token', t);
   };
 
   const logout = () => {
@@ -42,4 +43,4 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   );
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => useContext(AuthContext)

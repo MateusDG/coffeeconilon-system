@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { TextField, Button, Container, Box, Typography } from '@mui/material';
+import {
+  TextField,
+  Button,
+  Container,
+  Box,
+  Typography,
+  Link,
+} from '@mui/material';
 import { useAuth } from '../contexts/AuthContexts';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 
@@ -26,17 +33,25 @@ const LoginPage: React.FC = () => {
         <form onSubmit={handleSubmit}>
           <TextField label="Email" fullWidth margin="normal" value={email} onChange={e => setEmail(e.target.value)} />
           <TextField label="Senha" type="password" fullWidth margin="normal" value={password} onChange={e => setPassword(e.target.value)} />
-          <Button type="submit" variant="contained" fullWidth sx={{ mt: 2 }}>Login</Button>
+          <Button type="submit" variant="contained" fullWidth sx={{ mt: 2 }}>
+            Login
+          </Button>
+          <Button
+            component={RouterLink}
+            to="/register"
+            variant="outlined"
+            fullWidth
+            sx={{ mt: 2 }}
+          >
+            Criar conta
+          </Button>
+          <Typography align="center" variant="body2" sx={{ mt: 1 }}>
+            Não tem conta?{' '}
+            <Link component={RouterLink} to="/register">
+              Cadastre-se
+            </Link>
+          </Typography>
         </form>
-        <Button
-          component={RouterLink}
-          to="/register"
-          variant="outlined"
-          fullWidth
-          sx={{ mt: 2 }}
-        >
-          Criar conta
-        </Button>
       </Box>
     </Container>
   );

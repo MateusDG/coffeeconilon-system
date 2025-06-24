@@ -23,6 +23,7 @@ interface RegisterRequest {
 
 export const registerRequest = async (
   data: RegisterRequest,
-): Promise<void> => {
-  await api.post('/users/', data);
-};
+): Promise<string> => {
+  const response = await api.post<LoginResponse>('/auth/register', data);
+  return response.data.access_token;
+}

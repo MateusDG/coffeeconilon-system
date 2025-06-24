@@ -28,17 +28,11 @@ const RegisterPage: React.FC = () => {
           <TextField label="Nome" fullWidth margin="normal" value={name} onChange={e => setName(e.target.value)} />
           <TextField label="Email" fullWidth margin="normal" value={email} onChange={e => setEmail(e.target.value)} />
           <TextField label="Senha" type="password" fullWidth margin="normal" value={password} onChange={e => setPassword(e.target.value)} />
-          <Button type="submit" variant="contained" fullWidth sx={{ mt: 2 }}>Registrar</Button>
+          <Box sx={{ display: 'flex', gap: 2, mt: 2 }}>
+            <Button type="submit" variant="contained" fullWidth>Registrar</Button>
+            <Button component={RouterLink} to="/login" variant="outlined" fullWidth>Voltar ao login</Button>
+          </Box>
         </form>
-        <Button
-          component={RouterLink}
-          to="/login"
-          variant="outlined"
-          fullWidth
-          sx={{ mt: 2 }}
-        >
-          Voltar ao login
-        </Button>
       </Box>
     </Container>
   );
