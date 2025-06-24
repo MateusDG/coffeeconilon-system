@@ -1,6 +1,7 @@
 # backend/app/main.py
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
 from app.core.database import Base, engine
 
@@ -9,6 +10,7 @@ import app.models  # noqa
 
 # Importa routers
 from app.api.v1.endpoints.users import router as users_router
+from app.api.v1.endpoints.auth import router as auth_router
 from app.api.v1.endpoints.farms import router as farms_router
 from app.api.v1.endpoints.lots import router as lots_router
 from app.api.v1.endpoints.crops import router as crops_router
@@ -18,11 +20,25 @@ from app.api.v1.endpoints.reports import router as reports_router
 
 app = FastAPI(title=settings.PROJECT_NAME)
 
+origins = [
+    "http://localhost",
+    "http://localhost:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 # Cria as tabelas no banco
 Base.metadata.create_all(bind=engine)
 
 # Inclui routers
 app.include_router(users_router)
+app.include_router(auth_router)
 app.include_router(farms_router)
 app.include_router(lots_router)
 app.include_router(crops_router)
