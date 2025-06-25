@@ -1,30 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Typography,
-  TableContainer,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  Paper,
-  Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  TextField,
-  DialogActions,
-  CircularProgress,
-  Box,
-  Alert,
-} from '@mui/material';
+import { Typography, Button, CircularProgress, Box, Alert } from '@mui/material';
 import api from '../services/api';
 
-interface Producer {
-  id: number;
-  name: string;
-  email: string;
-}
+import ProducersTable, { Producer } from '../components/Producers/ProducersTable';
+import ProducerDialog, { ProducerForm } from '../components/Producers/ProducerDialog';
 
 const ProducersPage: React.FC = () => {
   const [producers, setProducers] = useState<Producer[]>([]);
@@ -32,7 +11,7 @@ const ProducersPage: React.FC = () => {
   const [editing, setEditing] = useState<Producer | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [form, setForm] = useState({ name: '', email: '', password: '' });
+  const [form, setForm] = useState<ProducerForm>({ name: '', email: '', password: '' });
 
   const loadData = async () => {
     try {
@@ -49,12 +28,12 @@ const ProducersPage: React.FC = () => {
     loadData();
   }, []);
 
-  const handleSave = async () => {
+  const handleSave = async (data: ProducerForm) => {
     try {
       if (editing) {
-        await api.put(`/users/${editing.id}`, { name: form.name, email: form.email });
+        await api.put(`/users/${editing.id}`, { name: data.name, email: data.email });
       } else {
-        await api.post('/users', form);
+        await api.post('/users', data);
       }
       setOpen(false);
       setEditing(null);
@@ -74,6 +53,18 @@ const ProducersPage: React.FC = () => {
     }
   };
 
+  const handleEdit = (p: Producer) => {
+    setEditing(p);
+    setForm({ name: p.name, email: p.email, password: '' });
+    setOpen(true);
+  };
+
+  const handleNew = () => {
+    setEditing(null);
+    setForm({ name: '', email: '', password: '' });
+    setOpen(true);
+  };
+
   if (loading) {
     return (
       <Box textAlign="center" mt={4}>
@@ -86,45 +77,9 @@ const ProducersPage: React.FC = () => {
     <>
       <Typography variant="h4" gutterBottom>Produtores</Typography>
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
-      <Button variant="contained" onClick={() => setOpen(true)}>Novo produtor</Button>
-      <TableContainer component={Paper} sx={{ mt:2 }}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Nome</TableCell>
-              <TableCell>Email</TableCell>
-              <TableCell>Ações</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {producers.map(p => (
-              <TableRow key={p.id}>
-                <TableCell>{p.name}</TableCell>
-                <TableCell>{p.email}</TableCell>
-                <TableCell>
-                  <Button size="small" onClick={() => { setEditing(p); setForm({ name: p.name, email: p.email, password: '' }); setOpen(true); }}>Editar</Button>
-                  <Button size="small" color="error" onClick={() => handleDelete(p.id)}>Excluir</Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-
-      <Dialog open={open} onClose={() => setOpen(false)} fullWidth>
-        <DialogTitle>{editing ? 'Editar' : 'Novo'} Produtor</DialogTitle>
-        <DialogContent>
-          <TextField label="Nome" fullWidth margin="dense" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} />
-          <TextField label="Email" fullWidth margin="dense" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} />
-          {!editing && (
-            <TextField label="Senha" type="password" fullWidth margin="dense" value={form.password} onChange={e => setForm({ ...form, password: e.target.value })} />
-          )}
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpen(false)}>Cancelar</Button>
-          <Button onClick={handleSave}>Salvar</Button>
-        </DialogActions>
-      </Dialog>
+      <Button variant="contained" onClick={handleNew}>Novo produtor</Button>
+      <ProducersTable producers={producers} onEdit={handleEdit} onDelete={handleDelete} />
+      <ProducerDialog open={open} editing={!!editing} initialForm={form} onClose={() => setOpen(false)} onSave={handleSave} />
     </>
   );
 };

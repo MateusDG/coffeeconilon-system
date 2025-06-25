@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, Paper, CircularProgress, Box, Alert } from '@mui/material';
+import { Typography, CircularProgress, Box, Alert } from '@mui/material';
 import api from '../services/api';
+import ReportView from '../components/Reports/ReportView';
 
 const ReportsPage: React.FC = () => {
   const [data, setData] = useState<any>(null);
@@ -33,9 +34,7 @@ const ReportsPage: React.FC = () => {
     <>
       <Typography variant="h4" gutterBottom>Relatórios</Typography>
       {error && <Alert severity="error">{error}</Alert>}
-      <Paper sx={{ p: 2 }}>
-        <pre>{JSON.stringify(data, null, 2)}</pre>
-      </Paper>
+      <ReportView data={data} />
     </>
   );
 };

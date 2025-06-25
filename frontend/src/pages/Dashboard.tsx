@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, Grid, Paper, CircularProgress, Box, Card, CardContent } from '@mui/material';
+import { Typography, Grid, CircularProgress, Box } from '@mui/material';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import PeopleIcon from '@mui/icons-material/People';
 import api from '../services/api';
+import SummaryCard from '../components/Dashboard/SummaryCard';
 
 interface Summary {
   financial: number;
@@ -51,37 +52,13 @@ const DashboardPage: React.FC = () => {
         <Typography variant="h4" gutterBottom>Dashboard</Typography>
       </Grid>
       <Grid item xs={12} md={4}>
-        <Card>
-          <CardContent>
-            <Box display="flex" alignItems="center" gap={1}>
-              <AttachMoneyIcon color="primary" />
-              <Typography variant="h6">Lançamentos</Typography>
-            </Box>
-            <Typography variant="h4">{summary.financial}</Typography>
-          </CardContent>
-        </Card>
+        <SummaryCard icon={<AttachMoneyIcon color="primary" />} label="Lançamentos" value={summary.financial} />
       </Grid>
       <Grid item xs={12} md={4}>
-        <Card>
-          <CardContent>
-            <Box display="flex" alignItems="center" gap={1}>
-              <InventoryIcon color="primary" />
-              <Typography variant="h6">Movimentos</Typography>
-            </Box>
-            <Typography variant="h4">{summary.stocks}</Typography>
-          </CardContent>
-        </Card>
+        <SummaryCard icon={<InventoryIcon color="primary" />} label="Movimentos" value={summary.stocks} />
       </Grid>
       <Grid item xs={12} md={4}>
-        <Card>
-          <CardContent>
-            <Box display="flex" alignItems="center" gap={1}>
-              <PeopleIcon color="primary" />
-              <Typography variant="h6">Produtores</Typography>
-            </Box>
-            <Typography variant="h4">{summary.users}</Typography>
-          </CardContent>
-        </Card>
+        <SummaryCard icon={<PeopleIcon color="primary" />} label="Produtores" value={summary.users} />
       </Grid>
     </Grid>
   );

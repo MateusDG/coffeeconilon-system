@@ -1,32 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Typography,
-  TableContainer,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  Paper,
-  Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  TextField,
-  DialogActions,
-  CircularProgress,
-  Box,
-  Alert,
-} from '@mui/material';
+import { Typography, Button, CircularProgress, Box, Alert } from '@mui/material';
 import api from '../services/api';
 
-interface Lot {
-  id: number;
-  name: string;
-  area_ha: number;
-  farm_id: number;
-  crop_year?: number;
-}
+import LotsTable, { Lot } from '../components/Lots/LotsTable';
+import LotDialog, { LotForm } from '../components/Lots/LotDialog';
 
 const LotsPage: React.FC = () => {
   const [lots, setLots] = useState<Lot[]>([]);
@@ -34,7 +11,7 @@ const LotsPage: React.FC = () => {
   const [editing, setEditing] = useState<Lot | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [form, setForm] = useState({ name: '', area_ha: '', farm_id: '', crop_year: '' });
+  const [form, setForm] = useState<LotForm>({ name: '', area_ha: '', farm_id: '', crop_year: '' });
 
   const loadData = async () => {
     try {
@@ -51,18 +28,18 @@ const LotsPage: React.FC = () => {
     loadData();
   }, []);
 
-  const handleSave = async () => {
-    const data = {
-      name: form.name,
-      area_ha: Number(form.area_ha),
-      farm_id: Number(form.farm_id),
-      crop_year: form.crop_year ? Number(form.crop_year) : undefined,
+  const handleSave = async (data: LotForm) => {
+    const payload = {
+      name: data.name,
+      area_ha: Number(data.area_ha),
+      farm_id: Number(data.farm_id),
+      crop_year: data.crop_year ? Number(data.crop_year) : undefined,
     };
     try {
       if (editing) {
-        await api.put(`/lots/${editing.id}`, data);
+        await api.put(`/lots/${editing.id}`, payload);
       } else {
-        await api.post('/lots', data);
+        await api.post('/lots', payload);
       }
       setOpen(false);
       setEditing(null);
@@ -74,12 +51,24 @@ const LotsPage: React.FC = () => {
   };
 
   const handleDelete = async (id: number) => {
-    await api.delete(`/lots/${id}`);
-    loadData();
     try {
+      await api.delete(`/lots/${id}`);
+      loadData();
     } catch {
       setError('Erro ao excluir');
     }
+  };
+
+  const handleEdit = (l: Lot) => {
+    setEditing(l);
+    setForm({ name: l.name, area_ha: String(l.area_ha), farm_id: String(l.farm_id), crop_year: l.crop_year?.toString() || '' });
+    setOpen(true);
+  };
+
+  const handleNew = () => {
+    setEditing(null);
+    setForm({ name: '', area_ha: '', farm_id: '', crop_year: '' });
+    setOpen(true);
   };
 
   if (loading) {
@@ -94,46 +83,9 @@ const LotsPage: React.FC = () => {
     <>
       <Typography variant="h4" gutterBottom>Lotes</Typography>
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
-      <Button variant="contained" onClick={() => setOpen(true)}>Novo lote</Button>
-      <TableContainer component={Paper} sx={{ mt:2 }}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Nome</TableCell>
-              <TableCell>Área (ha)</TableCell>
-              <TableCell>Ano Safra</TableCell>
-              <TableCell>Ações</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {lots.map(l => (
-              <TableRow key={l.id}>
-                <TableCell>{l.name}</TableCell>
-                <TableCell>{l.area_ha}</TableCell>
-                <TableCell>{l.crop_year}</TableCell>
-                <TableCell>
-                  <Button size="small" onClick={() => { setEditing(l); setForm({ name: l.name, area_ha: String(l.area_ha), farm_id: String(l.farm_id), crop_year: l.crop_year?.toString() || '' }); setOpen(true); }}>Editar</Button>
-                  <Button size="small" color="error" onClick={() => handleDelete(l.id)}>Excluir</Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-
-      <Dialog open={open} onClose={() => setOpen(false)} fullWidth>
-        <DialogTitle>{editing ? 'Editar' : 'Novo'} Lote</DialogTitle>
-        <DialogContent>
-          <TextField label="Nome" fullWidth margin="dense" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} />
-          <TextField label="Área (ha)" fullWidth margin="dense" value={form.area_ha} onChange={e => setForm({ ...form, area_ha: e.target.value })} />
-          <TextField label="Farm ID" fullWidth margin="dense" value={form.farm_id} onChange={e => setForm({ ...form, farm_id: e.target.value })} />
-          <TextField label="Ano Safra" fullWidth margin="dense" value={form.crop_year} onChange={e => setForm({ ...form, crop_year: e.target.value })} />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpen(false)}>Cancelar</Button>
-          <Button onClick={handleSave}>Salvar</Button>
-        </DialogActions>
-      </Dialog>
+      <Button variant="contained" onClick={handleNew}>Novo lote</Button>
+      <LotsTable lots={lots} onEdit={handleEdit} onDelete={handleDelete} />
+      <LotDialog open={open} editing={!!editing} initialForm={form} onClose={() => setOpen(false)} onSave={handleSave} />
     </>
   );
 };
