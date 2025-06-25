@@ -1,4 +1,3 @@
-
 # Coffeeconilon-system
 
 ### **Tema**
@@ -22,6 +21,27 @@ O repositório já implementa:
 ### **Protótipo**
 
 Os protótipos das páginas principais (Login, Register, Dashboard, Financial, Inventory, Lots, Reports, Producers) foram criados no diretório `frontend/src/pages/`. A hierarquia do projeto é indicada no PDF “Detalhamento Estrutural Profundo do Projeto CoffeeConilon”, que explica a estrutura de pastas e responsabilidades de cada módulo.
+
+#### Login
+
+![1750875649859](image/README/1750875649859.png)
+
+#### Registro
+
+![1750875626672](image/README/1750875626672.png)
+
+#### Dashboard
+
+![1750875685316](image/README/1750875685316.png)
+
+#### Produtores
+
+![1750875704870](image/README/1750875704870.png)
+
+#### Lotes
+
+![1750875726038](image/README/1750875726038.png)
+
 
 ### **Referencia**
 
