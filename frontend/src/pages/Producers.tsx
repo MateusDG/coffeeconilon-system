@@ -14,6 +14,9 @@ import {
   DialogContent,
   TextField,
   DialogActions,
+  CircularProgress,
+  Box,
+  Alert,
 } from '@mui/material';
 import api from '../services/api';
 
@@ -27,11 +30,19 @@ const ProducersPage: React.FC = () => {
   const [producers, setProducers] = useState<Producer[]>([]);
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<Producer | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   const [form, setForm] = useState({ name: '', email: '', password: '' });
 
   const loadData = async () => {
-    const res = await api.get<Producer[]>('/users');
-    setProducers(res.data);
+    try {
+      const res = await api.get<Producer[]>('/users');
+      setProducers(res.data);
+    } catch {
+      setError('Erro ao carregar dados');
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -39,25 +50,42 @@ const ProducersPage: React.FC = () => {
   }, []);
 
   const handleSave = async () => {
-    if (editing) {
-      await api.put(`/users/${editing.id}`, { name: form.name, email: form.email });
-    } else {
-      await api.post('/users', form);
+    try {
+      if (editing) {
+        await api.put(`/users/${editing.id}`, { name: form.name, email: form.email });
+      } else {
+        await api.post('/users', form);
+      }
+      setOpen(false);
+      setEditing(null);
+      setForm({ name: '', email: '', password: '' });
+      loadData();
+    } catch {
+      setError('Erro ao salvar');
     }
-    setOpen(false);
-    setEditing(null);
-    setForm({ name: '', email: '', password: '' });
-    loadData();
   };
 
   const handleDelete = async (id: number) => {
-    await api.delete(`/users/${id}`);
-    loadData();
+    try {
+      await api.delete(`/users/${id}`);
+      loadData();
+    } catch {
+      setError('Erro ao excluir');
+    }
   };
+
+  if (loading) {
+    return (
+      <Box textAlign="center" mt={4}>
+        <CircularProgress />
+      </Box>
+    );
+  }
 
   return (
     <>
       <Typography variant="h4" gutterBottom>Produtores</Typography>
+      {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
       <Button variant="contained" onClick={() => setOpen(true)}>Novo produtor</Button>
       <TableContainer component={Paper} sx={{ mt:2 }}>
         <Table>

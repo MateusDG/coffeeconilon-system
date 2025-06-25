@@ -14,6 +14,9 @@ import {
   DialogContent,
   TextField,
   DialogActions,
+  CircularProgress,
+  Box,
+  Alert,
 } from '@mui/material';
 import api from '../services/api';
 
@@ -29,11 +32,19 @@ const LotsPage: React.FC = () => {
   const [lots, setLots] = useState<Lot[]>([]);
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<Lot | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   const [form, setForm] = useState({ name: '', area_ha: '', farm_id: '', crop_year: '' });
 
   const loadData = async () => {
-    const res = await api.get<Lot[]>('/lots');
-    setLots(res.data);
+    try {
+      const res = await api.get<Lot[]>('/lots');
+      setLots(res.data);
+    } catch {
+      setError('Erro ao carregar dados');
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -47,25 +58,42 @@ const LotsPage: React.FC = () => {
       farm_id: Number(form.farm_id),
       crop_year: form.crop_year ? Number(form.crop_year) : undefined,
     };
-    if (editing) {
-      await api.put(`/lots/${editing.id}`, data);
-    } else {
-      await api.post('/lots', data);
+    try {
+      if (editing) {
+        await api.put(`/lots/${editing.id}`, data);
+      } else {
+        await api.post('/lots', data);
+      }
+      setOpen(false);
+      setEditing(null);
+      setForm({ name: '', area_ha: '', farm_id: '', crop_year: '' });
+      loadData();
+    } catch {
+      setError('Erro ao salvar');
     }
-    setOpen(false);
-    setEditing(null);
-    setForm({ name: '', area_ha: '', farm_id: '', crop_year: '' });
-    loadData();
   };
 
   const handleDelete = async (id: number) => {
     await api.delete(`/lots/${id}`);
     loadData();
+    try {
+    } catch {
+      setError('Erro ao excluir');
+    }
   };
+
+  if (loading) {
+    return (
+      <Box textAlign="center" mt={4}>
+        <CircularProgress />
+      </Box>
+    );
+  }
 
   return (
     <>
       <Typography variant="h4" gutterBottom>Lotes</Typography>
+      {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
       <Button variant="contained" onClick={() => setOpen(true)}>Novo lote</Button>
       <TableContainer component={Paper} sx={{ mt:2 }}>
         <Table>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Box, TextField, Button, Typography } from '@mui/material';
+import { Container, Box, TextField, Button, Typography, Alert, CircularProgress } from '@mui/material';
 import { useAuth } from '../contexts/AuthContexts';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 
@@ -9,14 +9,25 @@ const RegisterPage: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (password !== confirmPassword) {
+      setError('As senhas não conferem');
+      return;
+    }
+    setError('');
+    setLoading(true);
     try {
       await register(name, email, password);
       navigate('/');
     } catch {
-      alert('Erro ao criar conta');
+      setError('Erro ao criar conta');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -28,8 +39,12 @@ const RegisterPage: React.FC = () => {
           <TextField label="Nome" fullWidth margin="normal" value={name} onChange={e => setName(e.target.value)} />
           <TextField label="Email" fullWidth margin="normal" value={email} onChange={e => setEmail(e.target.value)} />
           <TextField label="Senha" type="password" fullWidth margin="normal" value={password} onChange={e => setPassword(e.target.value)} />
+          <TextField label="Confirmar Senha" type="password" fullWidth margin="normal" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} />
+          {error && <Alert severity="error">{error}</Alert>}
           <Box sx={{ display: 'flex', gap: 2, mt: 2 }}>
-            <Button type="submit" variant="contained" fullWidth>Registrar</Button>
+            <Button type="submit" variant="contained" fullWidth disabled={loading}>
+              {loading ? <CircularProgress size={24} /> : 'Registrar'}
+            </Button>
             <Button component={RouterLink} to="/login" variant="outlined" fullWidth>Voltar ao login</Button>
           </Box>
         </form>

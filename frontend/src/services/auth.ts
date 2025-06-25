@@ -26,4 +26,4 @@ export const registerRequest = async (
 ): Promise<string> => {
   const response = await api.post<LoginResponse>('/auth/register', data);
   return response.data.access_token;
-}
+};

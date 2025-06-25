@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Paper } from '@mui/material';
+import { Typography, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Paper, CircularProgress, Box, Alert } from '@mui/material';
 import api from '../services/api';
 
 interface FinancialRecord {
@@ -12,14 +12,35 @@ interface FinancialRecord {
 
 const FinancialPage: React.FC = () => {
   const [records, setRecords] = useState<FinancialRecord[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    api.get<FinancialRecord[]>('/financial').then(res => setRecords(res.data));
+    const load = async () => {
+      try {
+        const res = await api.get<FinancialRecord[]>('/financial');
+        setRecords(res.data);
+      } catch {
+        setError('Erro ao carregar dados');
+      } finally {
+        setLoading(false);
+      }
+    };
+    load();
   }, []);
+
+  if (loading) {
+    return (
+      <Box textAlign="center" mt={4}>
+        <CircularProgress />
+      </Box>
+    );
+  }
 
   return (
     <>
       <Typography variant="h4" gutterBottom>Financeiro</Typography>
+      {error && <Alert severity="error">{error}</Alert>}
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
