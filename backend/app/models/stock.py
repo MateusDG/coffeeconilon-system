@@ -7,6 +7,7 @@ class Stock(Base):
 
     id          = Column(Integer, primary_key=True, index=True)
     crop_id     = Column(Integer, ForeignKey("crops.id"), nullable=True)
+    lot_id      = Column(Integer, ForeignKey("lots.id"), nullable=True)  # Referência ao lote
     product     = Column(String(120))           # Fertilizante ou “Café verde”
     movement    = Column(String(6))             # IN / OUT
     quantity    = Column(Numeric(14, 3))        # kg ou sacas
