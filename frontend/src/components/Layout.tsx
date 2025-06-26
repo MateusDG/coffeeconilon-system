@@ -9,6 +9,8 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const menu = [
     { label: 'Dashboard', path: '/' },
     { label: 'Produtores', path: '/producers' },
+    { label: 'Fazendas', path: '/farms' },
+    { label: 'Safras', path: '/crops' },
     { label: 'Lotes', path: '/lots' },
     { label: 'Financeiro', path: '/financial' },
     { label: 'Estoque', path: '/inventory' },
@@ -34,5 +36,3 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     </>
   );
 };
-
-export default Layout;

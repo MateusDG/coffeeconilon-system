@@ -52,23 +52,6 @@ def update_movement(db: Session, db_movement: Stock, stock_in: StockUpdate) -> S
     return db_movement
 
 
-def update_movement(db: Session, db_movement: Stock, stock_in: StockUpdate) -> Stock:
-    if stock_in.product is not None:
-        db_movement.product = stock_in.product
-    if stock_in.movement is not None:
-        db_movement.movement = stock_in.movement
-    if stock_in.quantity is not None:
-        db_movement.quantity = stock_in.quantity
-    if stock_in.unit is not None:
-        db_movement.unit = stock_in.unit
-    if stock_in.date is not None:
-        db_movement.date = stock_in.date
-    db_movement.updated_at = datetime.utcnow()
-    db.commit()
-    db.refresh(db_movement)
-    return db_movement
-
-
 def delete_movement(db: Session, db_movement: Stock) -> None:
     db.delete(db_movement)
     db.commit()
