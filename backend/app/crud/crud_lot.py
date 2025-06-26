@@ -2,7 +2,9 @@ from sqlalchemy.orm import Session
 from typing import Optional, List
 from datetime import datetime
 
+from fastapi import HTTPException, status
 from app.models.lot import Lot
+from app.models.farm import Farm
 from app.schemas.lot import LotCreate, LotUpdate
 
 
@@ -15,6 +17,13 @@ def get_lots(db: Session, skip: int = 0, limit: int = 100) -> List[Lot]:
 
 
 def create_lot(db: Session, lot_in: LotCreate) -> Lot:
+    farm = db.query(Farm).filter(Farm.id == lot_in.farm_id).first()
+    if not farm:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Farm not found",
+        )
+
     now = datetime.utcnow()
     lot = Lot(
         name=lot_in.name,

@@ -2,7 +2,9 @@ from sqlalchemy.orm import Session
 from typing import Optional, List
 from datetime import datetime
 
+from fastapi import HTTPException, status
 from app.models.crop import Crop
+from app.models.lot import Lot
 from app.schemas.crop import CropCreate, CropUpdate
 
 
@@ -15,6 +17,13 @@ def get_crops(db: Session, skip: int = 0, limit: int = 100) -> List[Crop]:
 
 
 def create_crop(db: Session, crop_in: CropCreate) -> Crop:
+    lot = db.query(Lot).filter(Lot.id == crop_in.lot_id).first()
+    if not lot:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Lot not found",
+        )
+
     now = datetime.utcnow()
     crop = Crop(
         lot_id=crop_in.lot_id,
