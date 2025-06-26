@@ -4,9 +4,11 @@ from pydantic import BaseModel
 from datetime import date
 from decimal import Decimal
 from typing import Optional
+from app.models.enums import FinancialType
+
 
 class FinancialBase(BaseModel):
-    type: str           # 'IN' ou 'OUT'
+    type: FinancialType
     category: str
     description: Optional[str]
     value: Decimal
@@ -25,7 +27,7 @@ class FinancialRead(FinancialBase):
         orm_mode = True
 
 class FinancialUpdate(BaseModel):
-    type: Optional[str]
+    type: Optional[FinancialType]
     category: Optional[str]
     description: Optional[str]
     value: Optional[Decimal]

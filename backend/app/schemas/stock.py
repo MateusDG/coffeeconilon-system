@@ -2,10 +2,11 @@ from pydantic import BaseModel
 from datetime import date
 from decimal import Decimal
 from typing import Optional
+from app.models.enums import MovementType
 
 class StockBase(BaseModel):
     product: str        # nome do insumo ou “Café verde”
-    movement: str       # 'IN' ou 'OUT'
+    movement: MovementType
     quantity: Decimal
     unit: str           # 'kg', 'l', 'saca'
     date: date
@@ -24,7 +25,7 @@ class StockRead(StockBase):
 
 class StockUpdate(BaseModel):
     product: Optional[str]
-    movement: Optional[str]
+    movement: Optional[MovementType]
     quantity: Optional[Decimal]
     unit: Optional[str]
     date: Optional[date]

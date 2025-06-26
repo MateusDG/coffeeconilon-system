@@ -1,6 +1,7 @@
-from sqlalchemy import Column, Integer, String, Numeric, Date, ForeignKey
+from sqlalchemy import Column, Integer, String, Numeric, Date, ForeignKey, Enum
 from sqlalchemy.orm import relationship
 from app.core.database import Base
+from .enums import FinancialType
 
 class Financial(Base):
     __tablename__ = "financial_records"
@@ -8,7 +9,7 @@ class Financial(Base):
     id          = Column(Integer, primary_key=True, index=True)
     crop_id     = Column(Integer, ForeignKey("crops.id"), nullable=True)
     lot_id      = Column(Integer, ForeignKey("lots.id"), nullable=True)
-    type        = Column(String(10))              # IN / OUT
+    type        = Column(Enum(FinancialType), nullable=False)
     category    = Column(String(50))              # insumo, mão-de-obra…
     description = Column(String(255))
     value       = Column(Numeric(14, 2), nullable=False)
