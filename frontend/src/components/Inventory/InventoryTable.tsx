@@ -8,6 +8,8 @@ export interface StockRecord {
   quantity: number;
   unit: string;
   date: string;
+  crop_id?: number;
+  lot_id?: number;
 }
 
 const InventoryTable: React.FC<{ records: StockRecord[] }> = ({ records }) => (
@@ -20,6 +22,7 @@ const InventoryTable: React.FC<{ records: StockRecord[] }> = ({ records }) => (
           <TableCell>Quantidade</TableCell>
           <TableCell>Unidade</TableCell>
           <TableCell>Data</TableCell>
+          <TableCell>Lote</TableCell>
         </TableRow>
       </TableHead>
       <TableBody>
@@ -30,6 +33,7 @@ const InventoryTable: React.FC<{ records: StockRecord[] }> = ({ records }) => (
             <TableCell>{r.quantity}</TableCell>
             <TableCell>{r.unit}</TableCell>
             <TableCell>{r.date}</TableCell>
+            <TableCell>{r.lot_id ?? ''}</TableCell>
           </TableRow>
         ))}
       </TableBody>

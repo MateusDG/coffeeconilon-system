@@ -5,8 +5,11 @@ export interface FinancialRecord {
   id: number;
   type: string;
   category: string;
+  description?: string;
   value: number;
   date: string;
+  crop_id?: number;
+  lot_id?: number;
 }
 
 const FinancialTable: React.FC<{ records: FinancialRecord[] }> = ({ records }) => (
@@ -16,8 +19,10 @@ const FinancialTable: React.FC<{ records: FinancialRecord[] }> = ({ records }) =
         <TableRow>
           <TableCell>Tipo</TableCell>
           <TableCell>Categoria</TableCell>
+          <TableCell>Descrição</TableCell>
           <TableCell>Valor</TableCell>
           <TableCell>Data</TableCell>
+          <TableCell>Lote</TableCell>
         </TableRow>
       </TableHead>
       <TableBody>
@@ -25,8 +30,10 @@ const FinancialTable: React.FC<{ records: FinancialRecord[] }> = ({ records }) =
           <TableRow key={r.id}>
             <TableCell>{r.type}</TableCell>
             <TableCell>{r.category}</TableCell>
+            <TableCell>{r.description || ''}</TableCell>
             <TableCell>{r.value}</TableCell>
             <TableCell>{r.date}</TableCell>
+            <TableCell>{r.lot_id ?? ''}</TableCell>
           </TableRow>
         ))}
       </TableBody>

@@ -7,6 +7,7 @@ export interface Producer {
   id: number;
   name: string;
   email: string;
+  is_active: boolean;
 }
 
 interface Props {
@@ -22,6 +23,7 @@ const ProducersTable: React.FC<Props> = ({ producers, onEdit, onDelete }) => (
         <TableRow>
           <TableCell>Nome</TableCell>
           <TableCell>Email</TableCell>
+          <TableCell>Ativo</TableCell>
           <TableCell>Ações</TableCell>
         </TableRow>
       </TableHead>
@@ -30,6 +32,7 @@ const ProducersTable: React.FC<Props> = ({ producers, onEdit, onDelete }) => (
           <TableRow key={p.id}>
             <TableCell>{p.name}</TableCell>
             <TableCell>{p.email}</TableCell>
+            <TableCell>{p.is_active ? 'Sim' : 'Não'}</TableCell>
             <TableCell>
               <IconButton size="small" onClick={() => onEdit(p)}>
                 <EditIcon fontSize="small" />
