@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List
 
-from app.core.database import SessionLocal
+from app.dependencies import get_db, get_current_user
 from app.schemas.stock import StockCreate, StockRead, StockUpdate
 from app.crud.crud_stock import (
     get_movement,
@@ -12,15 +12,11 @@ from app.crud.crud_stock import (
     delete_movement,
 )
 
-router = APIRouter(prefix="/stocks", tags=["stocks"])
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
+router = APIRouter(
+    prefix="/stocks",
+    tags=["stocks"],
+    dependencies=[Depends(get_current_user)],
+)
 
 @router.post("/", response_model=StockRead, status_code=status.HTTP_201_CREATED)
 def create_new_movement(stock_in: StockCreate, db: Session = Depends(get_db)):

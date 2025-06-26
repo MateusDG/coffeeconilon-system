@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List
 
-from app.core.database import SessionLocal
+from app.dependencies import get_db, get_current_user
 from app.schemas.financial import FinancialCreate, FinancialRead, FinancialUpdate
 from app.crud.crud_financial import (
     get_record,
@@ -12,15 +12,11 @@ from app.crud.crud_financial import (
     delete_record,
 )
 
-router = APIRouter(prefix="/financial", tags=["financial"])
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
+router = APIRouter(
+    prefix="/financial",
+    tags=["financial"],
+    dependencies=[Depends(get_current_user)],
+)
 
 @router.post("/", response_model=FinancialRead, status_code=status.HTTP_201_CREATED)
 def create_new_record(record_in: FinancialCreate, db: Session = Depends(get_db)):

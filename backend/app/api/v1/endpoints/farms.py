@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List
 
-from app.core.database import SessionLocal
+from app.dependencies import get_db, get_current_user
 from app.schemas.farm import FarmCreate, FarmRead, FarmUpdate
 from app.crud.crud_farm import (
     get_farm,
@@ -12,15 +12,11 @@ from app.crud.crud_farm import (
     delete_farm,
 )
 
-router = APIRouter(prefix="/farms", tags=["farms"])
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
+router = APIRouter(
+    prefix="/farms",
+    tags=["farms"],
+    dependencies=[Depends(get_current_user)],
+)
 
 @router.post("/", response_model=FarmRead, status_code=status.HTTP_201_CREATED)
 def create_new_farm(farm_in: FarmCreate, db: Session = Depends(get_db)):

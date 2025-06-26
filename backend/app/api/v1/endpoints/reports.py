@@ -18,3 +18,8 @@ def get_db():
 @router.post("/", response_model=ReportResponse)
 def get_report(filters: ReportFilter, db: Session = Depends(get_db)):
     return generate_report(db, filters)
+
+@router.get("/", response_model=ReportResponse)
+def read_report(db: Session = Depends(get_db)):
+    """Return an unfiltered report."""
+    return generate_report(db, ReportFilter())

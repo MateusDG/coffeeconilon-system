@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List
 
-from app.core.database import SessionLocal
+from app.dependencies import get_db, get_current_user
 from app.schemas.crop import CropCreate, CropRead, CropUpdate
 from app.crud.crud_crop import (
     get_crop,
@@ -12,14 +12,11 @@ from app.crud.crud_crop import (
     delete_crop,
 )
 
-router = APIRouter(prefix="/crops", tags=["crops"])
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+router = APIRouter(
+    prefix="/crops",
+    tags=["crops"],
+    dependencies=[Depends(get_current_user)],
+)
 
 
 @router.post("/", response_model=CropRead, status_code=status.HTTP_201_CREATED)

@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List
 
-from app.core.database import SessionLocal
+from app.dependencies import get_db, get_current_user
 from app.schemas.lot import LotCreate, LotRead, LotUpdate
 from app.crud.crud_lot import (
     get_lot,
@@ -12,15 +12,11 @@ from app.crud.crud_lot import (
     delete_lot,
 )
 
-router = APIRouter(prefix="/lots", tags=["lots"])
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
+router = APIRouter(
+    prefix="/lots",
+    tags=["lots"],
+    dependencies=[Depends(get_current_user)],
+)
 
 @router.post("/", response_model=LotRead, status_code=status.HTTP_201_CREATED)
 def create_new_lot(lot_in: LotCreate, db: Session = Depends(get_db)):
