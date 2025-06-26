@@ -26,14 +26,12 @@ def generate_report(db: Session, filters: ReportFilter) -> ReportResponse:
         fin_query = fin_query.filter(Financial.crop_id == filters.crop_id)
 
     total_in = (
-        fin_query.filter(Financial.type == "IN")
         fin_query.filter(Financial.type == FinancialType.IN)
         .with_entities(func.sum(Financial.value))
         .scalar()
         or 0
     )
     total_out = (
-        fin_query.filter(Financial.type == "OUT")
         fin_query.filter(Financial.type == FinancialType.OUT)
         .with_entities(func.sum(Financial.value))
         .scalar()
