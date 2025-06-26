@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
 from typing import Optional, List
+from datetime import datetime
 
 from app.models.farm import Farm
 from app.schemas.farm import FarmCreate, FarmUpdate
@@ -14,7 +15,14 @@ def get_farms(db: Session, skip: int = 0, limit: int = 100) -> List[Farm]:
 
 
 def create_farm(db: Session, farm_in: FarmCreate) -> Farm:
-    farm = Farm(name=farm_in.name, location=farm_in.location, owner_id=farm_in.owner_id)
+    now = datetime.utcnow()
+    farm = Farm(
+        name=farm_in.name,
+        location=farm_in.location,
+        owner_id=farm_in.owner_id,
+        created_at=now,
+        updated_at=now,
+    )
     db.add(farm)
     db.commit()
     db.refresh(farm)
@@ -26,6 +34,7 @@ def update_farm(db: Session, db_farm: Farm, farm_in: FarmUpdate) -> Farm:
         db_farm.name = farm_in.name
     if farm_in.location is not None:
         db_farm.location = farm_in.location
+    db_farm.updated_at = datetime.utcnow()
     db.commit()
     db.refresh(db_farm)
     return db_farm

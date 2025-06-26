@@ -1,9 +1,10 @@
 from sqlalchemy import Column, Integer, String, Numeric, Date, ForeignKey, Enum
 from sqlalchemy.orm import relationship
 from app.core.database import Base
+from .mixins import TimestampMixin
 from .enums import FinancialType
 
-class Financial(Base):
+class Financial(TimestampMixin, Base):
     __tablename__ = "financial_records"
 
     id          = Column(Integer, primary_key=True, index=True)

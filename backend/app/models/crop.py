@@ -1,8 +1,9 @@
 from sqlalchemy import Column, Integer, Float, Date, ForeignKey
 from sqlalchemy.orm import relationship
 from app.core.database import Base
+from .mixins import TimestampMixin
 
-class Crop(Base):
+class Crop(TimestampMixin, Base):
     __tablename__ = "crops"
 
     id            = Column(Integer, primary_key=True, index=True)

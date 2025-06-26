@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
 from typing import Optional, List
+from datetime import datetime
 
 from app.models.crop import Crop
 from app.schemas.crop import CropCreate, CropUpdate
@@ -14,11 +15,14 @@ def get_crops(db: Session, skip: int = 0, limit: int = 100) -> List[Crop]:
 
 
 def create_crop(db: Session, crop_in: CropCreate) -> Crop:
+    now = datetime.utcnow()
     crop = Crop(
         lot_id=crop_in.lot_id,
         planted_date=crop_in.planted_date,
         harvested_date=crop_in.harvested_date,
         yield_bags=crop_in.yield_bags,
+        created_at=now,
+        updated_at=now,
     )
     db.add(crop)
     db.commit()
@@ -33,6 +37,7 @@ def update_crop(db: Session, db_crop: Crop, crop_in: CropUpdate) -> Crop:
         db_crop.harvested_date = crop_in.harvested_date
     if crop_in.yield_bags is not None:
         db_crop.yield_bags = crop_in.yield_bags
+    db_crop.updated_at = datetime.utcnow()
     db.commit()
     db.refresh(db_crop)
     return db_crop

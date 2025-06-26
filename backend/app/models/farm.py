@@ -1,9 +1,9 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 from app.core.database import Base
+from .mixins import TimestampMixin
 
-class Farm(Base):
-    __tablename__ = "farms"
+class Farm(TimestampMixin, Base):
 
     id        = Column(Integer, primary_key=True, index=True)
     name      = Column(String(120), nullable=False)

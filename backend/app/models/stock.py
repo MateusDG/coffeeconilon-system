@@ -1,10 +1,11 @@
 from sqlalchemy import Column, Integer, String, Numeric, Date, ForeignKey, Enum
 from sqlalchemy.orm import relationship
 from app.core.database import Base
+from .mixins import TimestampMixin
 from .enums import MovementType
 
 
-class Stock(Base):
+class Stock(TimestampMixin, Base):
     __tablename__ = "stocks"
 
     id          = Column(Integer, primary_key=True, index=True)

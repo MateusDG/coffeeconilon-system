@@ -1,7 +1,6 @@
-# backend/app/crud/crud_user.py
-
 from sqlalchemy.orm import Session
 from typing import Optional
+from datetime import datetime
 
 from app.models.user import User
 from app.schemas.user import UserCreate, UserUpdate
@@ -18,7 +17,14 @@ def get_users(db: Session, skip: int = 0, limit: int = 100):
 
 def create_user(db: Session, user_in: UserCreate) -> User:
     hashed_pw = hash_password(user_in.password)
-    db_user = User(name=user_in.name, email=user_in.email, password=hashed_pw)
+    now = datetime.utcnow()
+    db_user = User(
+        name=user_in.name,
+        email=user_in.email,
+        password=hashed_pw,
+        created_at=now,
+        updated_at=now,
+    )
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
@@ -31,6 +37,7 @@ def update_user(db: Session, db_user: User, user_in: UserUpdate) -> User:
         db_user.email = user_in.email
     if user_in.is_active is not None:
         db_user.is_active = user_in.is_active
+    db_user.updated_at = datetime.utcnow()
     db.commit()
     db.refresh(db_user)
     return db_user

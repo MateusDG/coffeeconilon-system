@@ -1,8 +1,9 @@
 from sqlalchemy import Column, Integer, String, Float, ForeignKey, Date
 from sqlalchemy.orm import relationship
 from app.core.database import Base
+from .mixins import TimestampMixin
 
-class Lot(Base):
+class Lot(TimestampMixin, Base):
     __tablename__ = "lots"
 
     id        = Column(Integer, primary_key=True, index=True)

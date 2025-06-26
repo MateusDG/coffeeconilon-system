@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
 from typing import Optional, List
+from datetime import datetime
 
 from app.models.financial import Financial
 from app.schemas.financial import FinancialCreate, FinancialUpdate
@@ -14,6 +15,7 @@ def get_records(db: Session, skip: int = 0, limit: int = 100) -> List[Financial]
 
 
 def create_record(db: Session, record_in: FinancialCreate) -> Financial:
+    now = datetime.utcnow()
     record = Financial(
         crop_id=record_in.crop_id,
         lot_id=record_in.lot_id,
@@ -22,6 +24,8 @@ def create_record(db: Session, record_in: FinancialCreate) -> Financial:
         description=record_in.description,
         value=record_in.value,
         date=record_in.date,
+        created_at=now,
+        updated_at=now,
     )
     db.add(record)
     db.commit()
@@ -40,6 +44,7 @@ def update_record(db: Session, db_record: Financial, record_in: FinancialUpdate)
         db_record.value = record_in.value
     if record_in.date is not None:
         db_record.date = record_in.date
+    db_record.updated_at = datetime.utcnow()
     db.commit()
     db.refresh(db_record)
     return db_record

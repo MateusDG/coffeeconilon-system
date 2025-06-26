@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
 from typing import Optional, List
+from datetime import datetime
 
 from app.models.lot import Lot
 from app.schemas.lot import LotCreate, LotUpdate
@@ -14,11 +15,14 @@ def get_lots(db: Session, skip: int = 0, limit: int = 100) -> List[Lot]:
 
 
 def create_lot(db: Session, lot_in: LotCreate) -> Lot:
+    now = datetime.utcnow()
     lot = Lot(
         name=lot_in.name,
         area_ha=lot_in.area_ha,
         crop_year=lot_in.crop_year,
         farm_id=lot_in.farm_id,
+        created_at=now,
+        updated_at=now,
     )
     db.add(lot)
     db.commit()
@@ -33,6 +37,7 @@ def update_lot(db: Session, db_lot: Lot, lot_in: LotUpdate) -> Lot:
         db_lot.area_ha = lot_in.area_ha
     if lot_in.crop_year is not None:
         db_lot.crop_year = lot_in.crop_year
+    db_lot.updated_at = datetime.utcnow()
     db.commit()
     db.refresh(db_lot)
     return db_lot
