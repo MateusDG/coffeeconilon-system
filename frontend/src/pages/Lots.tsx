@@ -4,6 +4,7 @@ import api from '../services/api';
 
 import LotsTable, { Lot } from '../components/Lots/LotsTable';
 import LotDialog, { LotForm } from '../components/Lots/LotDialog';
+import type { Farm } from '../components/Farm/FarmsTable';
 
 const LotsPage: React.FC = () => {
   const [lots, setLots] = useState<Lot[]>([]);
@@ -11,6 +12,7 @@ const LotsPage: React.FC = () => {
   const [editing, setEditing] = useState<Lot | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [farms, setFarms] = useState<Farm[]>([]);
   const [form, setForm] = useState<LotForm>({ name: '', area_ha: '', farm_id: '', crop_year: '' });
 
   const loadData = async () => {
@@ -24,8 +26,18 @@ const LotsPage: React.FC = () => {
     }
   };
 
+  const loadFarms = async () => {
+    try {
+      const res = await api.get<Farm[]>('/farms');
+      setFarms(res.data);
+    } catch {
+      /* ignore */
+    }
+  };
+
   useEffect(() => {
     loadData();
+    loadFarms();
   }, []);
 
   const handleSave = async (data: LotForm) => {
@@ -51,15 +63,6 @@ const LotsPage: React.FC = () => {
   };
 
   const handleDelete = async (id: number) => {
-    try {
-      await api.delete(`/lots/${id}`);
-      loadData();
-    } catch {
-      setError('Erro ao excluir');
-    }
-  };
-
-  const handleEdit = (l: Lot) => {
     setEditing(l);
     setForm({ name: l.name, area_ha: String(l.area_ha), farm_id: String(l.farm_id), crop_year: l.crop_year?.toString() || '' });
     setOpen(true);
@@ -85,7 +88,14 @@ const LotsPage: React.FC = () => {
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
       <Button variant="contained" onClick={handleNew}>Novo lote</Button>
       <LotsTable lots={lots} onEdit={handleEdit} onDelete={handleDelete} />
-      <LotDialog open={open} editing={!!editing} initialForm={form} onClose={() => setOpen(false)} onSave={handleSave} />
+      <LotDialog
+        open={open}
+        editing={!!editing}
+        initialForm={form}
+        farms={farms}
+        onClose={() => setOpen(false)}
+        onSave={handleSave}
+      />
     </>
   );
 };
