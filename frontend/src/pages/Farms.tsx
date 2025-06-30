@@ -62,10 +62,8 @@ const FarmsPage: React.FC = () => {
       loadData();
     } catch {
       setError('Erro ao excluir');
-      setEditing(f);
-      setForm({ name: f.name, location: f.location || '', owner_id: String(f.owner_id) });
-      setOpen(true);
-    };
+      }
+  };
 
   const handleNew = () => {
     setEditing(null);

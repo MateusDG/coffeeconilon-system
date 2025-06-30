@@ -89,6 +89,13 @@ const CropsPage: React.FC = () => {
 
   if (loading) {
     return (
+      <Box textAlign="center" mt={4}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  return (
     <>
       <Typography variant="h4" gutterBottom>Safras</Typography>
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
