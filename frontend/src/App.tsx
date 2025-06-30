@@ -5,6 +5,8 @@ import RegisterPage from './pages/Register';
 import DashboardPage from './pages/Dashboard';
 import ProducersPage from './pages/Producers';
 import LotsPage from './pages/Lots';
+import FarmsPage from './pages/Farms';
+import CropsPage from './pages/Crops';
 import ReportsPage from './pages/Reports';
 import FinancialPage from './pages/Financial';
 import InventoryPage from './pages/Inventory';
@@ -29,7 +31,9 @@ const App: React.FC = () => {
       <Routes>
         <Route path="/" element={<DashboardPage />} />
         <Route path="/producers" element={<ProducersPage />} />
+        <Route path="/farms" element={<FarmsPage />} />
         <Route path="/lots" element={<LotsPage />} />
+        <Route path="/crops" element={<CropsPage />} />
         <Route path="/financial" element={<FinancialPage />} />
         <Route path="/inventory" element={<InventoryPage />} />
         <Route path="/reports" element={<ReportsPage />} />
