@@ -10,7 +10,7 @@ class Farm(TimestampMixin, Base):
     id        = Column(Integer, primary_key=True, index=True)
     name      = Column(String(120), nullable=False)
     location  = Column(String(120))
-    owner_id  = Column(Integer, ForeignKey("users.id"))
+    owner_id  = Column(Integer, ForeignKey("users.id"), nullable=False)
 
     owner = relationship("User", back_populates="farms")
     lots  = relationship("Lot", back_populates="farm", cascade="all, delete")

@@ -7,7 +7,7 @@ class Crop(TimestampMixin, Base):
     __tablename__ = "crops"
 
     id            = Column(Integer, primary_key=True, index=True)
-    lot_id        = Column(Integer, ForeignKey("lots.id"))
+    lot_id        = Column(Integer, ForeignKey("lots.id"), nullable=False)
     planted_date  = Column(Date)
     harvested_date= Column(Date)
     yield_bags    = Column(Float)      # sacas colhidas (60 kg)

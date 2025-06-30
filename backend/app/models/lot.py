@@ -1,16 +1,26 @@
-from sqlalchemy import Column, Integer, String, Float, ForeignKey, Date
+from sqlalchemy import Column, Integer, String, Float, ForeignKey
 from sqlalchemy.orm import relationship
 from app.core.database import Base
 from .mixins import TimestampMixin
 
 class Lot(TimestampMixin, Base):
-    __tablename__ = "lots"
+    __tablename__ = "lotes"
 
-    id        = Column(Integer, primary_key=True, index=True)
-    name      = Column(String(80), nullable=False)
-    area_ha   = Column(Float, nullable=False)          # hectares
-    farm_id   = Column(Integer, ForeignKey("farms.id"))
-    crop_year = Column(Integer)                        # safra 2025, 2026…
+    id = Column(Integer, primary_key=True, index=True)
+    nome = Column(String(80), nullable=False)
+    area_ha = Column(Float, nullable=False)  # hectares
+    farm_id = Column(Integer, ForeignKey("farms.id"), nullable=False)
+    crop_year = Column(Integer)  # safra 2025, 2026...
 
-    farm  = relationship("Farm", back_populates="lots")
-    crops = relationship("Crop", back_populates="lot", cascade="all, delete")
+    fazenda = relationship("Farm", back_populates="lotes")
+    culturas = relationship("Crop", back_populates="lote", cascade="all, delete")
+    financial_records = relationship(
+        "Financeiro",
+        back_populates="lote",
+        cascade="all, delete",
+    )
+    acoes = relationship(
+        "Estoque",
+        back_populates="lote",
+        cascade="all, delete",
+    )
