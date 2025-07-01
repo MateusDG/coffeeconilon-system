@@ -62,10 +62,24 @@ const LotsPage: React.FC = () => {
     }
   };
 
-  const handleDelete = async (id: number) => {
+  const handleEdit = (l: Lot) => {
     setEditing(l);
-    setForm({ name: l.name, area_ha: String(l.area_ha), farm_id: String(l.farm_id), crop_year: l.crop_year?.toString() || '' });
+    setForm({
+      name: l.name,
+      area_ha: String(l.area_ha),
+      farm_id: String(l.farm_id),
+      crop_year: l.crop_year ? String(l.crop_year) : '',
+    });
     setOpen(true);
+  };
+
+  const handleDelete = async (id: number) => {
+    try {
+      await api.delete(`/lots/${id}`);
+      loadData();
+    } catch {
+      setError('Erro ao excluir');
+    }
   };
 
   const handleNew = () => {

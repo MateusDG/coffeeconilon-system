@@ -55,6 +55,17 @@ const FarmsPage: React.FC = () => {
       setError('Erro ao salvar');
     }
   };
+  
+  const handleEdit = (f: Farm) => {
+    setEditing(f);
+    setForm({
+      name: f.name,
+      location: f.location ?? '',
+      owner_id: String(f.owner_id),
+    });
+    setOpen(true);
+  };
+
 
   const handleDelete = async (id: number) => {
     try {
