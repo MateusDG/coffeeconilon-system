@@ -10,6 +10,7 @@ import CropsPage from './pages/Crops';
 import ReportsPage from './pages/Reports';
 import FinancialPage from './pages/Financial';
 import InventoryPage from './pages/Inventory';
+import SetupWizard from './pages/SetupWizard';
 import Layout from './components/Layout';
 import { useAuth } from './contexts/AuthContexts';
 
