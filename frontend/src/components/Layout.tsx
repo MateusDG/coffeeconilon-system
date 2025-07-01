@@ -20,7 +20,8 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [drawerOpen, setDrawerOpen] = React.useState(false);
 
   const menu = [
-    { label: 'Dashboard', path: '/' },
+    { label: 'Início', path: '/' },
+    { label: 'Dashboard', path: '/dashboard' },
     { label: 'Assistente Inicial', path: '/setup' },
     { label: 'Produtores', path: '/producers' },
     { label: 'Fazendas', path: '/farms' },
@@ -46,6 +47,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           <Typography variant="h6" sx={{ flexGrow: 1 }}>
             Coffee Conilon
           </Typography>
+
         </Toolbar>
       </AppBar>
       <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)}>

@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import LoginPage from './pages/Login';
 import RegisterPage from './pages/Register';
 import DashboardPage from './pages/Dashboard';
+import HomePage from './pages/Home';
 import ProducersPage from './pages/Producers';
 import LotsPage from './pages/Lots';
 import FarmsPage from './pages/Farms';
@@ -30,11 +31,13 @@ const App: React.FC = () => {
   return (
     <Layout>
       <Routes>
-        <Route path="/" element={<DashboardPage />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/producers" element={<ProducersPage />} />
         <Route path="/farms" element={<FarmsPage />} />
         <Route path="/lots" element={<LotsPage />} />
         <Route path="/crops" element={<CropsPage />} />
+        <Route path="/setup" element={<SetupWizard />} />
         <Route path="/financial" element={<FinancialPage />} />
         <Route path="/inventory" element={<InventoryPage />} />
         <Route path="/reports" element={<ReportsPage />} />

@@ -94,6 +94,9 @@ const SetupWizard: React.FC = () => {
           </Step>
         ))}
       </Stepper>
+      <Typography variant="body1" sx={{ mb: 2 }}>
+        Complete cada etapa para registrar seu produtor, fazenda, lote e safra.
+      </Typography>
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
 
       {active === 0 && (
