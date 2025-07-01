@@ -47,7 +47,6 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           <Typography variant="h6" sx={{ flexGrow: 1 }}>
             Coffee Conilon
           </Typography>
-
         </Toolbar>
       </AppBar>
       <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)}>

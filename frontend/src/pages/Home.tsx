@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Typography, Button, Stack } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 
-const Home: React.FC = () => (
+const HomePage: React.FC = () => (
   <Box sx={{ textAlign: 'center', mt: 4 }}>
     <Typography variant="h3" gutterBottom>
       Bem-vindo ao Coffee Conilon
