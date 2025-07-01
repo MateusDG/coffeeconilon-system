@@ -1,5 +1,6 @@
 import React from 'react';
-import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Paper, IconButton } from '@mui/material';
+import { Box, IconButton } from '@mui/material';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
@@ -17,38 +18,48 @@ interface Props {
   onDelete: (id: number) => void;
 }
 
-const CropsTable: React.FC<Props> = ({ crops, onEdit, onDelete }) => (
-  <TableContainer component={Paper} sx={{ mt: 2 }}>
-    <Table>
-      <TableHead>
-        <TableRow>
-          <TableCell>Lote</TableCell>
-          <TableCell>Plantio</TableCell>
-          <TableCell>Colheita</TableCell>
-          <TableCell>Sacas</TableCell>
-          <TableCell>Ações</TableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {crops.map(c => (
-          <TableRow key={c.id}>
-            <TableCell>{c.lot_id}</TableCell>
-            <TableCell>{c.planted_date}</TableCell>
-            <TableCell>{c.harvested_date}</TableCell>
-            <TableCell>{c.yield_bags}</TableCell>
-            <TableCell>
-              <IconButton size="small" onClick={() => onEdit(c)}>
-                <EditIcon fontSize="small" />
-              </IconButton>
-              <IconButton size="small" color="error" onClick={() => onDelete(c.id)}>
-                <DeleteIcon fontSize="small" />
-              </IconButton>
-            </TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
-  </TableContainer>
-);
+const CropsTable: React.FC<Props> = ({ crops, onEdit, onDelete }) => {
+  const columns = React.useMemo<GridColDef[]>(
+    () => [
+      { field: 'lot_id', headerName: 'Lote', flex: 1 },
+      { field: 'planted_date', headerName: 'Plantio', flex: 1 },
+      { field: 'harvested_date', headerName: 'Colheita', flex: 1 },
+      { field: 'yield_bags', headerName: 'Sacas', flex: 1 },
+      {
+        field: 'actions',
+        headerName: 'Ações',
+        sortable: false,
+        filterable: false,
+        renderCell: params => (
+          <>
+            <IconButton size="small" onClick={() => onEdit(params.row)}>
+              <EditIcon fontSize="small" />
+            </IconButton>
+            <IconButton
+              size="small"
+              color="error"
+              onClick={() => onDelete(params.row.id)}
+            >
+              <DeleteIcon fontSize="small" />
+            </IconButton>
+          </>
+        ),
+      },
+    ],
+    [onEdit, onDelete],
+  );
+
+  return (
+    <Box sx={{ mt: 2 }}>
+      <DataGrid
+        rows={crops}
+        columns={columns}
+        autoHeight
+        pageSizeOptions={[5, 10, 25]}
+        disableRowSelectionOnClick
+      />
+    </Box>
+  );
+};
 
 export default CropsTable;

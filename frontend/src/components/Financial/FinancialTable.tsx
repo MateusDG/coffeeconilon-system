@@ -1,5 +1,6 @@
 import React from 'react';
-import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Paper } from '@mui/material';
+import { Box } from '@mui/material';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
 
 export interface FinancialRecord {
   id: number;
@@ -11,34 +12,35 @@ export interface FinancialRecord {
   crop_id?: number;
   lot_id?: number;
 }
+const FinancialTable: React.FC<{ records: FinancialRecord[] }> = ({ records }) => {
+  const columns = React.useMemo<GridColDef[]>(
+    () => [
+      { field: 'type', headerName: 'Tipo', flex: 1 },
+      { field: 'category', headerName: 'Categoria', flex: 1 },
+      { field: 'description', headerName: 'Descrição', flex: 1 },
+      { field: 'value', headerName: 'Valor', flex: 1 },
+      { field: 'date', headerName: 'Data', flex: 1 },
+      {
+        field: 'lot_id',
+        headerName: 'Lote',
+        flex: 1,
+        valueGetter: params => params.row.lot_id ?? '',
+      },
+    ],
+    [],
+  );
 
-const FinancialTable: React.FC<{ records: FinancialRecord[] }> = ({ records }) => (
-  <TableContainer component={Paper}>
-    <Table>
-      <TableHead>
-        <TableRow>
-          <TableCell>Tipo</TableCell>
-          <TableCell>Categoria</TableCell>
-          <TableCell>Descrição</TableCell>
-          <TableCell>Valor</TableCell>
-          <TableCell>Data</TableCell>
-          <TableCell>Lote</TableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {records.map(r => (
-          <TableRow key={r.id}>
-            <TableCell>{r.type}</TableCell>
-            <TableCell>{r.category}</TableCell>
-            <TableCell>{r.description || ''}</TableCell>
-            <TableCell>{r.value}</TableCell>
-            <TableCell>{r.date}</TableCell>
-            <TableCell>{r.lot_id ?? ''}</TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
-  </TableContainer>
-);
+  return (
+    <Box sx={{ mt: 2 }}>
+      <DataGrid
+        rows={records}
+        columns={columns}
+        autoHeight
+        pageSizeOptions={[5, 10, 25]}
+        disableRowSelectionOnClick
+      />
+    </Box>
+  );
+};
 
 export default FinancialTable;

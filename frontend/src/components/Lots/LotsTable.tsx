@@ -1,5 +1,6 @@
 import React from 'react';
-import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Paper, IconButton } from '@mui/material';
+import { Box, IconButton } from '@mui/material';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
@@ -17,36 +18,47 @@ interface Props {
   onDelete: (id: number) => void;
 }
 
-const LotsTable: React.FC<Props> = ({ lots, onEdit, onDelete }) => (
-  <TableContainer component={Paper} sx={{ mt: 2 }}>
-    <Table>
-      <TableHead>
-        <TableRow>
-          <TableCell>Nome</TableCell>
-          <TableCell>Área (ha)</TableCell>
-          <TableCell>Ano Safra</TableCell>
-          <TableCell>Ações</TableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {lots.map(l => (
-          <TableRow key={l.id}>
-            <TableCell>{l.name}</TableCell>
-            <TableCell>{l.area_ha}</TableCell>
-            <TableCell>{l.crop_year}</TableCell>
-            <TableCell>
-              <IconButton size="small" onClick={() => onEdit(l)}>
-                <EditIcon fontSize="small" />
-              </IconButton>
-              <IconButton size="small" color="error" onClick={() => onDelete(l.id)}>
-                <DeleteIcon fontSize="small" />
-              </IconButton>
-            </TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
-  </TableContainer>
-);
+const LotsTable: React.FC<Props> = ({ lots, onEdit, onDelete }) => {
+  const columns = React.useMemo<GridColDef[]>(
+    () => [
+      { field: 'name', headerName: 'Nome', flex: 1 },
+      { field: 'area_ha', headerName: 'Área (ha)', flex: 1 },
+      { field: 'crop_year', headerName: 'Ano Safra', flex: 1 },
+      {
+        field: 'actions',
+        headerName: 'Ações',
+        sortable: false,
+        filterable: false,
+        renderCell: params => (
+          <>
+            <IconButton size="small" onClick={() => onEdit(params.row)}>
+              <EditIcon fontSize="small" />
+            </IconButton>
+            <IconButton
+              size="small"
+              color="error"
+              onClick={() => onDelete(params.row.id)}
+            >
+              <DeleteIcon fontSize="small" />
+            </IconButton>
+          </>
+        ),
+      },
+    ],
+    [onEdit, onDelete],
+  );
+
+  return (
+    <Box sx={{ mt: 2 }}>
+      <DataGrid
+        rows={lots}
+        columns={columns}
+        autoHeight
+        pageSizeOptions={[5, 10, 25]}
+        disableRowSelectionOnClick
+      />
+    </Box>
+  );
+};
 
 export default LotsTable;

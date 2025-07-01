@@ -1,5 +1,6 @@
 import React from 'react';
-import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Paper } from '@mui/material';
+import { Box } from '@mui/material';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
 
 export interface StockRecord {
   id: number;
@@ -12,33 +13,35 @@ export interface StockRecord {
   lot_id?: number;
 }
 
-const InventoryTable: React.FC<{ records: StockRecord[] }> = ({ records }) => (
-  <TableContainer component={Paper}>
-    <Table>
-      <TableHead>
-        <TableRow>
-          <TableCell>Produto</TableCell>
-          <TableCell>Movimento</TableCell>
-          <TableCell>Quantidade</TableCell>
-          <TableCell>Unidade</TableCell>
-          <TableCell>Data</TableCell>
-          <TableCell>Lote</TableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {records.map(r => (
-          <TableRow key={r.id}>
-            <TableCell>{r.product}</TableCell>
-            <TableCell>{r.movement}</TableCell>
-            <TableCell>{r.quantity}</TableCell>
-            <TableCell>{r.unit}</TableCell>
-            <TableCell>{r.date}</TableCell>
-            <TableCell>{r.lot_id ?? ''}</TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
-  </TableContainer>
-);
+const InventoryTable: React.FC<{ records: StockRecord[] }> = ({ records }) => {
+  const columns = React.useMemo<GridColDef[]>(
+    () => [
+      { field: 'product', headerName: 'Produto', flex: 1 },
+      { field: 'movement', headerName: 'Movimento', flex: 1 },
+      { field: 'quantity', headerName: 'Quantidade', flex: 1 },
+      { field: 'unit', headerName: 'Unidade', flex: 1 },
+      { field: 'date', headerName: 'Data', flex: 1 },
+      {
+        field: 'lot_id',
+        headerName: 'Lote',
+        flex: 1,
+        valueGetter: params => params.row.lot_id ?? '',
+      },
+    ],
+    [],
+  );
+
+  return (
+    <Box sx={{ mt: 2 }}>
+      <DataGrid
+        rows={records}
+        columns={columns}
+        autoHeight
+        pageSizeOptions={[5, 10, 25]}
+        disableRowSelectionOnClick
+      />
+    </Box>
+  );
+};
 
 export default InventoryTable;
