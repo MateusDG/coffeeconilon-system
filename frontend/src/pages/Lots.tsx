@@ -4,6 +4,7 @@ import api from '../services/api';
 
 import LotsTable, { Lot } from '../components/Lots/LotsTable';
 import LotDialog, { LotForm } from '../components/Lots/LotDialog';
+import MapView from '../components/Lots/MapView';
 import type { Farm } from '../components/Farm/FarmsTable';
 
 const LotsPage: React.FC = () => {
@@ -102,6 +103,7 @@ const LotsPage: React.FC = () => {
       {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
       <Button variant="contained" onClick={handleNew}>Novo lote</Button>
       <LotsTable lots={lots} onEdit={handleEdit} onDelete={handleDelete} />
+      <MapView lots={lots} />
       <LotDialog
         open={open}
         editing={!!editing}

@@ -10,6 +10,7 @@ export interface Lot {
   area_ha: number;
   farm_id: number;
   crop_year?: number;
+  coordinates?: number[][];
 }
 
 interface Props {

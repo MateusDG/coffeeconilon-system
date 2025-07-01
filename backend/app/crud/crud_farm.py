@@ -19,6 +19,8 @@ def create_farm(db: Session, farm_in: FarmCreate) -> Farm:
     farm = Farm(
         name=farm_in.name,
         location=farm_in.location,
+        latitude=farm_in.latitude,
+        longitude=farm_in.longitude,
         owner_id=farm_in.owner_id,
         created_at=now,
         updated_at=now,
@@ -34,6 +36,10 @@ def update_farm(db: Session, db_farm: Farm, farm_in: FarmUpdate) -> Farm:
         db_farm.name = farm_in.name
     if farm_in.location is not None:
         db_farm.location = farm_in.location
+    if farm_in.latitude is not None:
+        db_farm.latitude = farm_in.latitude
+    if farm_in.longitude is not None:
+        db_farm.longitude = farm_in.longitude
     db_farm.updated_at = datetime.utcnow()
     db.commit()
     db.refresh(db_farm)

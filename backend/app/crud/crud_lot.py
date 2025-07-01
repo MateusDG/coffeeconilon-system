@@ -29,6 +29,7 @@ def create_lot(db: Session, lot_in: LotCreate) -> Lot:
         name=lot_in.name,
         area_ha=lot_in.area_ha,
         crop_year=lot_in.crop_year,
+        coordinates=lot_in.coordinates,
         farm_id=lot_in.farm_id,
         created_at=now,
         updated_at=now,
@@ -46,6 +47,8 @@ def update_lot(db: Session, db_lot: Lot, lot_in: LotUpdate) -> Lot:
         db_lot.area_ha = lot_in.area_ha
     if lot_in.crop_year is not None:
         db_lot.crop_year = lot_in.crop_year
+    if lot_in.coordinates is not None:
+        db_lot.coordinates = lot_in.coordinates
     db_lot.updated_at = datetime.utcnow()
     db.commit()
     db.refresh(db_lot)

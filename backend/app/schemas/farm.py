@@ -1,5 +1,3 @@
-# backend/app/schemas/farm.py
-
 from pydantic import BaseModel
 from typing import Optional
 
@@ -7,6 +5,8 @@ from typing import Optional
 class FarmBase(BaseModel):
     name: str
     location: Optional[str]
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
 
 
 class FarmCreate(FarmBase):
@@ -24,4 +24,5 @@ class FarmRead(FarmBase):
 class FarmUpdate(BaseModel):
     name: Optional[str]
     location: Optional[str]
-
+    latitude: Optional[float]
+    longitude: Optional[float]

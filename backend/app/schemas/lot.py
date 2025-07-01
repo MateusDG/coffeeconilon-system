@@ -1,12 +1,11 @@
-# backend/app/schemas/lot.py
-
 from pydantic import BaseModel
-from typing import Optional
+from typing import Optional, List
 
 class LotBase(BaseModel):
     name: str
     area_ha: float
     crop_year: Optional[int]
+    coordinates: Optional[List[List[float]]] = None
 
 class LotCreate(LotBase):
     farm_id: int
@@ -22,4 +21,4 @@ class LotUpdate(BaseModel):
     name: Optional[str]
     area_ha: Optional[float]
     crop_year: Optional[int]
-
+    coordinates: Optional[List[List[float]]] = None
