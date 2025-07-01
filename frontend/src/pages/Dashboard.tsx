@@ -5,6 +5,8 @@ import InventoryIcon from '@mui/icons-material/Inventory';
 import PeopleIcon from '@mui/icons-material/People';
 import api from '../services/api';
 import SummaryCard from '../components/Dashboard/SummaryCard';
+import DashboardCharts from '../components/Dashboard/DashboardCharts';
+
 
 interface Summary {
   financial: number;
@@ -59,6 +61,9 @@ const DashboardPage: React.FC = () => {
       </Grid>
       <Grid item xs={12} md={4}>
         <SummaryCard icon={<PeopleIcon color="primary" />} label="Produtores" value={summary.users} />
+      </Grid>
+      <Grid item xs={12}>
+        <DashboardCharts />
       </Grid>
     </Grid>
   );
