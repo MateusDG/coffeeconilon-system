@@ -18,12 +18,12 @@ router = APIRouter(
     dependencies=[Depends(get_current_user)],
 )
 
-@router.post("/", response_model=StockRead, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=StockRead, status_code=status.HTTP_201_CREATED)
 def create_new_movement(stock_in: StockCreate, db: Session = Depends(get_db)):
     return create_movement(db, stock_in)
 
 
-@router.get("/", response_model=List[StockRead])
+@router.get("", response_model=List[StockRead])
 def read_movements(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return get_movements(db, skip, limit)
 

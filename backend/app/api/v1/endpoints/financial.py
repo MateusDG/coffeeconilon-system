@@ -18,12 +18,12 @@ router = APIRouter(
     dependencies=[Depends(get_current_user)],
 )
 
-@router.post("/", response_model=FinancialRead, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=FinancialRead, status_code=status.HTTP_201_CREATED)
 def create_new_record(record_in: FinancialCreate, db: Session = Depends(get_db)):
     return create_record(db, record_in)
 
 
-@router.get("/", response_model=List[FinancialRead])
+@router.get("", response_model=List[FinancialRead])
 def read_records(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return get_records(db, skip, limit)
 
