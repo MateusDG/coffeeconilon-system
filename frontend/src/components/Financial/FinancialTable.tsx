@@ -1,6 +1,8 @@
 import React from 'react';
-import { Box } from '@mui/material';
+import { Box, IconButton } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export interface FinancialRecord {
   id: number;
@@ -12,7 +14,13 @@ export interface FinancialRecord {
   crop_id?: number;
   lot_id?: number;
 }
-const FinancialTable: React.FC<{ records: FinancialRecord[] }> = ({ records }) => {
+interface Props {
+  records: FinancialRecord[];
+  onEdit: (rec: FinancialRecord) => void;
+  onDelete: (id: number) => void;
+}
+
+const FinancialTable: React.FC<Props> = ({ records, onEdit, onDelete }) => {
   const columns = React.useMemo<GridColDef[]>(
     () => [
       { field: 'type', headerName: 'Tipo', flex: 1 },
@@ -26,8 +34,28 @@ const FinancialTable: React.FC<{ records: FinancialRecord[] }> = ({ records }) =
         flex: 1,
         valueGetter: params => params.row.lot_id ?? '',
       },
+      {
+        field: 'actions',
+        headerName: 'Ações',
+        sortable: false,
+        filterable: false,
+        renderCell: params => (
+          <>
+            <IconButton size="small" onClick={() => onEdit(params.row)}>
+              <EditIcon fontSize="small" />
+            </IconButton>
+            <IconButton
+              size="small"
+              color="error"
+              onClick={() => onDelete(params.row.id)}
+            >
+              <DeleteIcon fontSize="small" />
+            </IconButton>
+          </>
+        ),
+      },
     ],
-    [],
+    [onEdit, onDelete],
   );
 
   return (
