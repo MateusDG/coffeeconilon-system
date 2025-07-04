@@ -12,8 +12,8 @@ class StockBase(BaseModel):
     date: date
 
 class StockCreate(StockBase):
-    crop_id: Optional[int]
-    lot_id: Optional[int]
+    crop_id: Optional[int] = None
+    lot_id: Optional[int] = None
 
 class StockRead(StockBase):
     id: int
@@ -24,9 +24,9 @@ class StockRead(StockBase):
         orm_mode = True
 
 class StockUpdate(BaseModel):
-    product: Optional[str]
-    movement: Optional[MovementType]
-    quantity: Optional[Decimal]
-    unit: Optional[str]
-    date: Optional[date]
-    lot_id: Optional[int]
+    product: Optional[str] = None
+    movement: Optional[MovementType] = None
+    quantity: Optional[Decimal] = None
+    unit: Optional[str] = None
+    date: Optional[date] = None
+    lot_id: Optional[int] = None

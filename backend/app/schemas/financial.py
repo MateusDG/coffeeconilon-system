@@ -1,5 +1,3 @@
-# backend/app/schemas/financial.py
-
 from pydantic import BaseModel
 from datetime import date
 from decimal import Decimal
@@ -10,13 +8,13 @@ from app.models.enums import FinancialType
 class FinancialBase(BaseModel):
     type: FinancialType
     category: str
-    description: Optional[str]
+    description: Optional[str] = None
     value: Decimal
     date: date
 
 class FinancialCreate(FinancialBase):
-    crop_id: Optional[int]
-    lot_id: Optional[int]
+    crop_id: Optional[int] = None
+    lot_id: Optional[int] = None
 
 class FinancialRead(FinancialBase):
     id: int
@@ -27,9 +25,8 @@ class FinancialRead(FinancialBase):
         orm_mode = True
 
 class FinancialUpdate(BaseModel):
-    type: Optional[FinancialType]
-    category: Optional[str]
-    description: Optional[str]
-    value: Optional[Decimal]
-    date: Optional[date]
-
+    type: Optional[FinancialType] = None
+    category: Optional[str] = None
+    description: Optional[str] = None
+    value: Optional[Decimal] = None
+    date: Optional[date] = None
