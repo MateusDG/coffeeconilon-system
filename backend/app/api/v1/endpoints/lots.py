@@ -18,12 +18,12 @@ router = APIRouter(
     dependencies=[Depends(get_current_user)],
 )
 
-@router.post("/", response_model=LotRead, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=LotRead, status_code=status.HTTP_201_CREATED)
 def create_new_lot(lot_in: LotCreate, db: Session = Depends(get_db)):
     return create_lot(db, lot_in)
 
 
-@router.get("/", response_model=List[LotRead])
+@router.get("", response_model=List[LotRead])
 def read_lots(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return get_lots(db, skip, limit)
 

@@ -27,7 +27,7 @@ def get_db():
     finally:
         db.close()
 
-@router.post("/", response_model=UserRead, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=UserRead, status_code=status.HTTP_201_CREATED)
 def create_new_user(user_in: UserCreate, db: Session = Depends(get_db)):
     existing = get_user_by_email(db, user_in.email)
     if existing:
@@ -48,7 +48,7 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
         )
     return user
 
-@router.get("/", response_model=List[UserRead])
+@router.get("", response_model=List[UserRead])
 def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return get_users(db, skip, limit)
 

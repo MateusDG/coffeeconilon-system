@@ -18,13 +18,13 @@ router = APIRouter(
     dependencies=[Depends(get_current_user)],
 )
 
-@router.post("/", response_model=FarmRead, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=FarmRead, status_code=status.HTTP_201_CREATED)
 def create_new_farm(farm_in: FarmCreate, db: Session = Depends(get_db)):
     farm = create_farm(db, farm_in)
     return farm
 
 
-@router.get("/", response_model=List[FarmRead])
+@router.get("", response_model=List[FarmRead])
 def read_farms(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return get_farms(db, skip, limit)
 

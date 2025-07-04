@@ -19,12 +19,12 @@ router = APIRouter(
 )
 
 
-@router.post("/", response_model=CropRead, status_code=status.HTTP_201_CREATED)
+@router.post("", response_model=CropRead, status_code=status.HTTP_201_CREATED)
 def create_new_crop(crop_in: CropCreate, db: Session = Depends(get_db)):
     return create_crop(db, crop_in)
 
 
-@router.get("/", response_model=List[CropRead])
+@router.get("", response_model=List[CropRead])
 def read_crops(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     return get_crops(db, skip, limit)
 
