@@ -14,8 +14,9 @@ class LotRead(LotBase):
     id: int
     farm_id: int
 
-    class Config:
-        orm_mode = True
+    model_config = {
+        "from_attributes": True,
+    }
 
 class LotUpdate(BaseModel):
     name: Optional[str]

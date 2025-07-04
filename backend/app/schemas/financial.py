@@ -21,8 +21,9 @@ class FinancialRead(FinancialBase):
     crop_id: Optional[int]
     lot_id: Optional[int]
 
-    class Config:
-        orm_mode = True
+    model_config = {
+        "from_attributes": True,
+    }
 
 class FinancialUpdate(BaseModel):
     type: Optional[FinancialType] = None

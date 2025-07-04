@@ -25,6 +25,7 @@ class ReportResponse(BaseModel):
     financial_summary: FinancialSummary
     stock_summary: List[StockSummary]
 
-    class Config:
-        orm_mode = True
+    model_config = {
+        "from_attributes": True,
+    }
 

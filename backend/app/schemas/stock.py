@@ -20,8 +20,9 @@ class StockRead(StockBase):
     crop_id: Optional[int]
     lot_id: Optional[int]
 
-    class Config:
-        orm_mode = True
+    model_config = {
+        "from_attributes": True,
+    }
 
 class StockUpdate(BaseModel):
     product: Optional[str] = None

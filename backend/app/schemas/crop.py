@@ -16,8 +16,9 @@ class CropRead(CropBase):
     id: int
     lot_id: int
 
-    class Config:
-        orm_mode = True
+    model_config = {
+        "from_attributes": True,
+    }
 
 class CropUpdate(BaseModel):
     planted_date: Optional[date]
