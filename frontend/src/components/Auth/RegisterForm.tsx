@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, TextField, Button, Typography, Alert, CircularProgress } from '@mui/material';
 import { useAuth } from '../../contexts/AuthContexts';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 
 const RegisterForm: React.FC = () => {
-  const { register } = useAuth();
+  const { register, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -12,6 +12,12 @@ const RegisterForm: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/');
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,7 +29,6 @@ const RegisterForm: React.FC = () => {
     setLoading(true);
     try {
       await register(name, email, password);
-      navigate('/');
     } catch {
       setError('Erro ao criar conta');
     } finally {

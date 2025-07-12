@@ -1,15 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TextField, Button, Box, Typography, Link, Alert, CircularProgress } from '@mui/material';
 import { useAuth } from '../../contexts/AuthContexts';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
 const LoginForm: React.FC = () => {
-  const { login } = useAuth();
+  const { login, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/');
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -17,7 +23,6 @@ const LoginForm: React.FC = () => {
     setLoading(true);
     try {
       await login(email, password);
-      navigate('/');
     } catch {
       setError('Credenciais inválidas');
     } finally {
