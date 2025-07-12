@@ -6,6 +6,7 @@ import PeopleIcon from '@mui/icons-material/People';
 import api from '../services/api';
 import SummaryCard from '../components/Dashboard/SummaryCard';
 import DashboardCharts from '../components/Dashboard/DashboardCharts';
+import { useAuth } from '../contexts/AuthContexts';
 
 
 interface Summary {
@@ -15,11 +16,13 @@ interface Summary {
 }
 
 const DashboardPage: React.FC = () => {
+  const { isAuthenticated } = useAuth();
   const [summary, setSummary] = useState<Summary>({ financial: 0, stocks: 0, users: 0 });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
+      if (!isAuthenticated) return;
       try {
         const [fin, stocks, users] = await Promise.all([
           api.get('/financial'),
@@ -38,7 +41,7 @@ const DashboardPage: React.FC = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [isAuthenticated]);
 
   if (loading) {
     return (
