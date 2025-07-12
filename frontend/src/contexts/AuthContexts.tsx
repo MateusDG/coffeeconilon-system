@@ -5,12 +5,9 @@ import api from '../services/api';
 interface AuthContextProps {
   isAuthenticated: boolean;
   token: string | null;
-  login: (email: string, password: string) => Promise<void>;
-  register: (
-    name: string,
-    email: string,
-    password: string,
-  ) => Promise<void>;
+  loading: boolean;
+  login: (email: string, password:string) => Promise<void>;
+  register: (name: string, email: string, password: string) => Promise<void>;
   logout: () => void;
 }
 
@@ -19,16 +16,26 @@ const AuthContext = createContext<AuthContextProps>({} as AuthContextProps);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(!!token);
+  const [token, setToken] = useState<string | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const t = localStorage.getItem('token');
-    if (t) {
-      setToken(t);
-      api.defaults.headers.Authorization = `Bearer ${t}`;
-      setIsAuthenticated(true);
+    async function validateToken() {
+      const t = localStorage.getItem('token');
+      if (t) {
+        try {
+          api.defaults.headers.Authorization = `Bearer ${t}`;
+          await api.get('/auth/me');
+          setToken(t);
+          setIsAuthenticated(true);
+        } catch {
+          localStorage.removeItem('token');
+        }
+      }
+      setLoading(false);
     }
+    validateToken();
   }, []);
 
   const login = async (email: string, password: string) => {
@@ -65,7 +72,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   return (
-    <AuthContext.Provider value={{ token, isAuthenticated, login, register, logout }}>
+    <AuthContext.Provider value={{ token, isAuthenticated, loading, login, register, logout }}>
       {children}
     </AuthContext.Provider>
   );

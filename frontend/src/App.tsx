@@ -4,9 +4,19 @@ import { useAuth } from './contexts/AuthContexts';
 import LoginPage from './pages/Login';
 import RegisterPage from './pages/Register';
 import DashboardPage from './pages/Dashboard';
+import { CircularProgress, Box } from '@mui/material';
 
 const PrivateRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+        <CircularProgress />
+      </Box>
+    );
+  }
+
   return isAuthenticated ? <>{children}</> : <Navigate to="/login" />;
 };
 
