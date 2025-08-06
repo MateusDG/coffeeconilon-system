@@ -24,11 +24,11 @@ Os protótipos das páginas principais (Login, Register, Dashboard, Financial, I
 
 #### Login
 
-![1750875649859](image/README/1750875649859.png)
+![1754500801088](image/README/1754500801088.png)
 
 #### Registro
 
-![1750875626672](image/README/1750875626672.png)
+![1754500832633](image/README/1754500832633.png)
 
 #### Dashboard
 
@@ -41,7 +41,6 @@ Os protótipos das páginas principais (Login, Register, Dashboard, Financial, I
 #### Lotes
 
 ![1750875726038](image/README/1750875726038.png)
-
 
 ### **Referencia**
 
