@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import LoginPage from './pages/Login';
-import RegisterPage from './pages/Register';
+import NewLogin from './pages/NewLogin';
+import NewRegister from './pages/NewRegister';
 import DashboardPage from './pages/Dashboard';
 import HomePage from './pages/Home';
 import ProducersPage from './pages/Producers';
@@ -21,8 +21,8 @@ const App: React.FC = () => {
   if (!token) {
     return (
       <Routes>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/login" element={<NewLogin />} />
+        <Route path="/register" element={<NewRegister />} />
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     );
