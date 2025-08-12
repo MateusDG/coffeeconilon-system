@@ -17,6 +17,8 @@ from app.api.v1.endpoints.crops import router as crops_router
 from app.api.v1.endpoints.financial import router as financial_router
 from app.api.v1.endpoints.stocks import router as stocks_router
 from app.api.v1.endpoints.reports import router as reports_router
+from app.api.v1.endpoints.meta import router as meta_router
+from app.api.v1.endpoints.onboarding import router as onboarding_router
 
 app = FastAPI(title=settings.PROJECT_NAME)
 
@@ -29,6 +31,7 @@ origins = [
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
+    allow_origin_regex=r".*",  # broaden for local/dev tools
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -46,9 +49,10 @@ app.include_router(crops_router)
 app.include_router(financial_router)
 app.include_router(stocks_router)
 app.include_router(reports_router)
+app.include_router(meta_router)
+app.include_router(onboarding_router)
 
 
 @app.get("/ping", tags=["health"])
 def ping():
     return {"message": "pong"}
-

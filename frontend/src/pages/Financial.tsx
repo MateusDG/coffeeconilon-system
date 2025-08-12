@@ -4,6 +4,7 @@ import api from '../services/api';
 import FinancialTable, { FinancialRecord } from '../components/Financial/FinancialTable';
 import FinancialDialog, { FinancialForm } from '../components/Financial/FinancialDialog';
 import type { Lot } from '../components/Lots/LotsTable';
+import { parseCurrency } from '../utils/format';
 
 const FinancialPage: React.FC = () => {
   const [records, setRecords] = useState<FinancialRecord[]>([]);
@@ -14,7 +15,7 @@ const FinancialPage: React.FC = () => {
   const [lots, setLots] = useState<Lot[]>([]);
   const [form, setForm] = useState<FinancialForm>({
     type: 'IN',
-    category: '',
+    category: 'sale',
     description: '',
     value: '',
     date: '',
@@ -51,7 +52,7 @@ const FinancialPage: React.FC = () => {
       type: data.type,
       category: data.category,
       description: data.description || null,
-      value: Number(data.value),
+      value: parseCurrency(data.value),
       date: data.date,
       lot_id: data.lot_id ? Number(data.lot_id) : null,
     };
@@ -63,7 +64,7 @@ const FinancialPage: React.FC = () => {
       }
       setOpen(false);
       setEditing(null);
-      setForm({ type: 'IN', category: '', description: '', value: '', date: '', lot_id: '' });
+      setForm({ type: 'IN', category: 'sale', description: '', value: '', date: '', lot_id: '' });
       loadData();
     } catch {
       setError('Erro ao salvar');
@@ -94,7 +95,7 @@ const FinancialPage: React.FC = () => {
 
   const handleNew = () => {
     setEditing(null);
-    setForm({ type: 'IN', category: '', description: '', value: '', date: '', lot_id: '' });
+    setForm({ type: 'IN', category: 'sale', description: '', value: '', date: '', lot_id: '' });
     setOpen(true);
   };
 

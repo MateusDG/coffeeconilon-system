@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Grid, Typography } from '@mui/material';
 import {
   LineChart,
@@ -11,9 +11,15 @@ import {
   CartesianGrid,
   ResponsiveContainer,
 } from 'recharts';
-import api from '../../services/api';
 import { FinancialRecord } from '../Financial/FinancialTable';
 import { StockRecord } from '../Inventory/InventoryTable';
+
+interface Props {
+  financial: FinancialRecord[];
+  stocks: StockRecord[];
+  from: Date;
+  to: Date;
+}
 
 interface FinChartData {
   month: string;
@@ -25,44 +31,42 @@ interface StockChartData {
   quantity: number;
 }
 
-const DashboardCharts: React.FC = () => {
+const DashboardCharts: React.FC<Props> = ({ financial, stocks, from, to }) => {
   const [financialData, setFinancialData] = useState<FinChartData[]>([]);
   const [stockData, setStockData] = useState<StockChartData[]>([]);
 
+  const inRange = (d: string) => {
+    const dt = new Date(d);
+    const start = new Date(from.getFullYear(), from.getMonth(), 1);
+    const end = new Date(to.getFullYear(), to.getMonth() + 1, 0, 23, 59, 59);
+    return dt >= start && dt <= end;
+  };
+
   useEffect(() => {
-    const load = async () => {
-      try {
-        const [finRes, stockRes] = await Promise.all([
-          api.get<FinancialRecord[]>('/financial'),
-          api.get<StockRecord[]>('/stocks'),
-        ]);
+    const finTotals: { [month: string]: number } = {};
+    financial.filter(f => inRange(f.date)).forEach(rec => {
+      const month = new Date(rec.date).toISOString().slice(0, 7);
+      const delta = rec.type === 'OUT' ? -Number(rec.value) : Number(rec.value);
+      finTotals[month] = (finTotals[month] || 0) + delta;
+    });
+    setFinancialData(
+      Object.entries(finTotals)
+        .sort(([a], [b]) => a.localeCompare(b))
+        .map(([month, total]) => ({ month, total }))
+    );
 
-        const finTotals: { [month: string]: number } = {};
-        finRes.data.forEach(rec => {
-          const month = new Date(rec.date).toISOString().slice(0, 7);
-          finTotals[month] = (finTotals[month] || 0) + Number(rec.value);
-        });
-        setFinancialData(
-          Object.entries(finTotals).map(([month, total]) => ({ month, total }))
-        );
-
-        const stockTotals: { [product: string]: number } = {};
-        stockRes.data.forEach(rec => {
-          stockTotals[rec.product] =
-            (stockTotals[rec.product] || 0) + Number(rec.quantity);
-        });
-        setStockData(
-          Object.entries(stockTotals).map(([product, quantity]) => ({
-            product,
-            quantity,
-          }))
-        );
-      } catch {
-        // ignore errors in demo
-      }
-    };
-    load();
-  }, []);
+    const stockTotals: { [product: string]: number } = {};
+    stocks.filter(s => inRange(s.date)).forEach(rec => {
+      stockTotals[rec.product] =
+        (stockTotals[rec.product] || 0) + Number(rec.quantity) * (rec.movement === 'OUT' ? -1 : 1);
+    });
+    setStockData(
+      Object.entries(stockTotals)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 10)
+        .map(([product, quantity]) => ({ product, quantity }))
+    );
+  }, [financial, stocks, from, to]);
 
   return (
     <Grid container spacing={2} sx={{ mt: 2 }}>
@@ -76,7 +80,7 @@ const DashboardCharts: React.FC = () => {
             <XAxis dataKey="month" />
             <YAxis />
             <Tooltip />
-            <Line type="monotone" dataKey="total" stroke="#8884d8" />
+            <Line type="monotone" dataKey="total" stroke="#4BAE4F" />
           </LineChart>
         </ResponsiveContainer>
       </Grid>

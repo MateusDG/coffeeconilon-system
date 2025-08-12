@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, IconButton } from '@mui/material';
+import { formatDate, formatNumber } from '../../utils/format';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -26,14 +27,19 @@ const InventoryTable: React.FC<Props> = ({ records, onEdit, onDelete }) => {
     () => [
       { field: 'product', headerName: 'Produto', flex: 1 },
       { field: 'movement', headerName: 'Movimento', flex: 1 },
-      { field: 'quantity', headerName: 'Quantidade', flex: 1 },
+      {
+        field: 'quantity',
+        headerName: 'Quantidade',
+        flex: 1,
+        valueFormatter: (p) => formatNumber(typeof p.value === 'number' ? p.value : Number(p.value ?? 0), 3),
+      },
       { field: 'unit', headerName: 'Unidade', flex: 1 },
-      { field: 'date', headerName: 'Data', flex: 1 },
+      { field: 'date', headerName: 'Data', flex: 1, valueFormatter: (p) => formatDate((p.value as string) ?? '') },
       {
         field: 'lot_id',
         headerName: 'Lote',
         flex: 1,
-        valueGetter: params => params.row.lot_id ?? '',
+        valueGetter: (params) => (params?.row?.lot_id ?? ''),
       },
       {
         field: 'actions',

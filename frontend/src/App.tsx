@@ -14,9 +14,18 @@ import InventoryPage from './pages/Inventory';
 import SetupWizard from './pages/SetupWizard';
 import Layout from './components/Layout';
 import { useAuth } from './contexts/AuthContexts';
+import { Box, CircularProgress } from '@mui/material';
 
 const App: React.FC = () => {
-  const { token } = useAuth();
+  const { token, ready } = useAuth();
+
+  if (!ready) {
+    return (
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
 
   if (!token) {
     return (
