@@ -4,6 +4,7 @@ import api from '../services/api';
 
 import InventoryTable, { StockRecord } from '../components/Inventory/InventoryTable';
 import InventoryDialog, { StockForm } from '../components/Inventory/InventoryDialog';
+import { toApiDate, fromApiDateToIso } from '../utils/format';
 import type { Lot } from '../components/Lots/LotsTable';
 
 const InventoryPage: React.FC = () => {
@@ -17,7 +18,7 @@ const InventoryPage: React.FC = () => {
     product: '',
     movement: 'IN',
     quantity: '',
-    unit: '',
+    unit: 'kg',
     date: '',
     lot_id: '',
   });
@@ -48,14 +49,14 @@ const InventoryPage: React.FC = () => {
   }, []);
 
   const handleSave = async (data: StockForm) => {
-    const payload = {
-      product: data.product,
-      movement: data.movement,
-      quantity: Number(data.quantity),
-      unit: data.unit,
-      date: data.date,
-      lot_id: data.lot_id ? Number(data.lot_id) : null,
-    };
+      const payload = {
+        product: data.product,
+        movement: data.movement,
+        quantity: Number(data.quantity.replace(',', '.')),
+        unit: data.unit,
+        date: toApiDate(data.date),
+        lot_id: data.lot_id ? Number(data.lot_id) : null,
+      };
     try {
       if (editing) {
         await api.put(`/stocks/${editing.id}`, payload);
@@ -64,7 +65,7 @@ const InventoryPage: React.FC = () => {
       }
       setOpen(false);
       setEditing(null);
-      setForm({ product: '', movement: 'IN', quantity: '', unit: '', date: '', lot_id: '' });
+      setForm({ product: '', movement: 'IN', quantity: '', unit: 'kg', date: '', lot_id: '' });
       loadData();
     } catch {
       setError('Erro ao salvar');
@@ -78,7 +79,7 @@ const InventoryPage: React.FC = () => {
       movement: r.movement,
       quantity: r.quantity.toString(),
       unit: r.unit,
-      date: r.date,
+      date: fromApiDateToIso(r.date),
       lot_id: r.lot_id ? String(r.lot_id) : '',
     });
     setOpen(true);
@@ -95,7 +96,7 @@ const InventoryPage: React.FC = () => {
 
   const handleNew = () => {
     setEditing(null);
-    setForm({ product: '', movement: 'IN', quantity: '', unit: '', date: '', lot_id: '' });
+    setForm({ product: '', movement: 'IN', quantity: '', unit: 'kg', date: '', lot_id: '' });
     setOpen(true);
   };
 

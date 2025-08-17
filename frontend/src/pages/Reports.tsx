@@ -13,8 +13,11 @@ const ReportsPage: React.FC = () => {
       try {
         const res = await api.get('/reports');
         setData(res.data);
-      } catch {
-        setError('Erro ao carregar relatórios');
+      } catch (e: any) {
+        const detail = e?.response?.data?.detail;
+        if (typeof detail === 'string') setError(detail);
+        else if (Array.isArray(detail) && detail[0]?.msg) setError(detail[0].msg);
+        else setError('Erro ao carregar relatórios');
       } finally {
         setLoading(false);
       }

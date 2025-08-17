@@ -2,10 +2,11 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from app.core.database import SessionLocal
+from app.dependencies import get_current_user
 from app.schemas.report import ReportFilter, ReportResponse
 from app.crud.crud_report import generate_report
 
-router = APIRouter(prefix="/reports", tags=["reports"])
+router = APIRouter(prefix="/reports", tags=["reports"]) 
 
 def get_db():
     db = SessionLocal()
@@ -16,10 +17,17 @@ def get_db():
 
 
 @router.post("/", response_model=ReportResponse)
-def get_report(filters: ReportFilter, db: Session = Depends(get_db)):
+def get_report(
+    filters: ReportFilter,
+    db: Session = Depends(get_db),
+    current_user=Depends(get_current_user),
+):
     return generate_report(db, filters)
 
 @router.get("", response_model=ReportResponse)
-def read_report(db: Session = Depends(get_db)):
+def read_report(
+    db: Session = Depends(get_db),
+    current_user=Depends(get_current_user),
+):
     """Return an unfiltered report."""
     return generate_report(db, ReportFilter())

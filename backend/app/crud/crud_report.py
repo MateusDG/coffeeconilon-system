@@ -25,17 +25,16 @@ def generate_report(db: Session, filters: ReportFilter) -> ReportResponse:
     if filters.crop_id:
         fin_query = fin_query.filter(Financial.crop_id == filters.crop_id)
 
-    total_in = (
-        fin_query.filter(Financial.type == FinancialType.IN)
+    # Use plain string comparisons for broader DB compatibility (SQLite/Postgres)
+    total_in_raw = (
+        fin_query.filter(Financial.type == "IN")
         .with_entities(func.sum(Financial.value))
         .scalar()
-        or 0
     )
-    total_out = (
-        fin_query.filter(Financial.type == FinancialType.OUT)
+    total_out_raw = (
+        fin_query.filter(Financial.type == "OUT")
         .with_entities(func.sum(Financial.value))
         .scalar()
-        or 0
     )
 
     stock_query = db.query(Stock.product, func.sum(Stock.quantity).label("qty"), Stock.unit)
@@ -52,9 +51,14 @@ def generate_report(db: Session, filters: ReportFilter) -> ReportResponse:
         for prod, qty, unit in stock_query.all()
     ]
 
+    # Normalize to Decimal safely regardless of DB return type (None/int/str/Decimal)
+    to_dec = lambda x: Decimal(str(x)) if x is not None else Decimal("0")
+    total_in = to_dec(total_in_raw)
+    total_out = to_dec(total_out_raw)
+
     financial_summary = FinancialSummary(
-        total_in=Decimal(total_in),
-        total_out=Decimal(total_out),
-        net=Decimal(total_in) - Decimal(total_out),
+        total_in=total_in,
+        total_out=total_out,
+        net=total_in - total_out,
     )
     return ReportResponse(financial_summary=financial_summary, stock_summary=stock_summary)
