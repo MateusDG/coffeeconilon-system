@@ -4,7 +4,15 @@ import api from '../services/api';
 import FinancialTable, { FinancialRecord } from '../components/Financial/FinancialTable';
 import FinancialDialog, { FinancialForm } from '../components/Financial/FinancialDialog';
 import type { Lot } from '../components/Lots/LotsTable';
+<<<<<<< HEAD
 import { parseCurrency, toApiDate, fromApiDateToIso } from '../utils/format';
+=======
+<<<<<<< HEAD
+import { parseCurrency, toApiDate, fromApiDateToIso } from '../utils/format';
+=======
+import { parseCurrency } from '../utils/format';
+>>>>>>> ba42668069ff50cd05bba0251d51dbceb6f042f4
+>>>>>>> 6458800b61a86440f725aff4cb0266f369b61b5b
 
 const FinancialPage: React.FC = () => {
   const [records, setRecords] = useState<FinancialRecord[]>([]);
@@ -52,6 +60,14 @@ const FinancialPage: React.FC = () => {
       type: data.type,
       category: data.category,
       description: data.description || null,
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+      value: parseCurrency(data.value),
+      date: data.date,
+>>>>>>> ba42668069ff50cd05bba0251d51dbceb6f042f4
+>>>>>>> 6458800b61a86440f725aff4cb0266f369b61b5b
       lot_id: data.lot_id ? Number(data.lot_id) : null,
     };
     // For create, value and date are required; for update, include only if provided

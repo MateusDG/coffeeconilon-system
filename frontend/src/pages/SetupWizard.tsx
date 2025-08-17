@@ -10,7 +10,14 @@ import {
   Alert
 } from '@mui/material';
 import api from '../services/api';
+<<<<<<< HEAD
 import { toApiDate } from '../utils/format';
+=======
+<<<<<<< HEAD
+import { toApiDate } from '../utils/format';
+=======
+>>>>>>> ba42668069ff50cd05bba0251d51dbceb6f042f4
+>>>>>>> 6458800b61a86440f725aff4cb0266f369b61b5b
 import { useAuth } from '../contexts/AuthContexts';
 
 const ALL_STEPS = ['Fazenda', 'Lote', 'Safra'] as const;

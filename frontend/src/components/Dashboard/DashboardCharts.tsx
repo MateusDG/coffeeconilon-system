@@ -21,6 +21,16 @@ interface Props {
   from: Date;
   to: Date;
 }
+<<<<<<< HEAD
+=======
+
+interface Props {
+  financial: FinancialRecord[];
+  stocks: StockRecord[];
+  from: Date;
+  to: Date;
+}
+>>>>>>> 6458800b61a86440f725aff4cb0266f369b61b5b
 
 interface FinChartData {
   month: string;
@@ -37,7 +47,15 @@ const DashboardCharts: React.FC<Props> = ({ financial, stocks, from, to }) => {
   const [stockData, setStockData] = useState<StockChartData[]>([]);
 
   const inRange = (d: string) => {
+<<<<<<< HEAD
     const dt = parseApiDate(d);
+=======
+<<<<<<< HEAD
+    const dt = parseApiDate(d);
+=======
+    const dt = new Date(d);
+>>>>>>> ba42668069ff50cd05bba0251d51dbceb6f042f4
+>>>>>>> 6458800b61a86440f725aff4cb0266f369b61b5b
     const start = new Date(from.getFullYear(), from.getMonth(), 1);
     const end = new Date(to.getFullYear(), to.getMonth() + 1, 0, 23, 59, 59);
     return dt >= start && dt <= end;
@@ -46,8 +64,17 @@ const DashboardCharts: React.FC<Props> = ({ financial, stocks, from, to }) => {
   useEffect(() => {
     const finTotals: { [month: string]: number } = {};
     financial.filter(f => inRange(f.date)).forEach(rec => {
+<<<<<<< HEAD
       const dt = parseApiDate(rec.date);
       const month = `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, '0')}`;
+=======
+<<<<<<< HEAD
+      const dt = parseApiDate(rec.date);
+      const month = `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, '0')}`;
+=======
+      const month = new Date(rec.date).toISOString().slice(0, 7);
+>>>>>>> ba42668069ff50cd05bba0251d51dbceb6f042f4
+>>>>>>> 6458800b61a86440f725aff4cb0266f369b61b5b
       const delta = rec.type === 'OUT' ? -Number(rec.value) : Number(rec.value);
       finTotals[month] = (finTotals[month] || 0) + delta;
     });

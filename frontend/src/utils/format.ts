@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 6458800b61a86440f725aff4cb0266f369b61b5b
 export const formatDate = (input?: string | Date) => {
   if (!input) return '';
   if (input instanceof Date) return input.toLocaleDateString('pt-BR');
@@ -29,6 +33,15 @@ export const parseApiDate = (s: string): Date => {
     return new Date(Number(y), Number(m) - 1, Number(d));
   }
   return new Date(s);
+<<<<<<< HEAD
+=======
+=======
+export const formatDate = (iso?: string | Date) => {
+  if (!iso) return '';
+  const d = typeof iso === 'string' ? new Date(iso) : iso;
+  return d.toLocaleDateString('pt-BR');
+>>>>>>> ba42668069ff50cd05bba0251d51dbceb6f042f4
+>>>>>>> 6458800b61a86440f725aff4cb0266f369b61b5b
 };
 
 export const formatCurrency = (n?: number) => {
@@ -37,6 +50,10 @@ export const formatCurrency = (n?: number) => {
 };
 
 export const parseCurrency = (s: string): number => {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 6458800b61a86440f725aff4cb0266f369b61b5b
   if (!s) return NaN;
   const raw = s.replace(/\s/g, '').replace(/[^0-9.,-]/g, '');
   const lastComma = raw.lastIndexOf(',');
@@ -61,6 +78,14 @@ export const parseCurrency = (s: string): number => {
   }
   const num = Number(normalized);
   return isNaN(num) ? NaN : num;
+<<<<<<< HEAD
+=======
+=======
+  const normalized = s.replace(/[^0-9,.-]/g, '').replace(',', '.');
+  const num = Number(normalized);
+  return isNaN(num) ? 0 : num;
+>>>>>>> ba42668069ff50cd05bba0251d51dbceb6f042f4
+>>>>>>> 6458800b61a86440f725aff4cb0266f369b61b5b
 };
 
 export const formatNumber = (n?: number, decimals = 2) => {
@@ -83,3 +108,10 @@ export const STOCK_UNITS = [
   { value: 't', label: 'tonelada' },
   { value: 'un', label: 'unidade' },
 ];
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+
+>>>>>>> ba42668069ff50cd05bba0251d51dbceb6f042f4
+>>>>>>> 6458800b61a86440f725aff4cb0266f369b61b5b
