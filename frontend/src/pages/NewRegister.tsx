@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Grid, Box, TextField, Button, Typography, Link, Alert, CircularProgress } from '@mui/material';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContexts';
-import logo from '../assets/logo.svg';
+import logo from '../assets/logo.png';
 
 const NewRegister: React.FC = () => {
   const { register } = useAuth();
@@ -36,8 +36,9 @@ const NewRegister: React.FC = () => {
     <Grid container component="main" sx={{ height: '100vh' }}>
       {/* Left side with form */}
       <Grid item xs={12} sm={8} md={5} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-        <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
-          <img src={logo} alt="logo" style={{ width: '250px', height: '250px' }} />
+        <Box sx={{ mb: 4, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <img src={logo} alt="SystemConilon" style={{ width: '220px', height: '220px', objectFit: 'contain' }} />
+          <Typography variant="h3" sx={{ mt: 1, fontWeight: 600, letterSpacing: 0.5 }}>SystemConilon</Typography>
         </Box>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1, width: '80%' }}>
           <TextField

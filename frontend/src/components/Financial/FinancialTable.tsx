@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, IconButton } from '@mui/material';
+import { formatCurrency, formatDate } from '../../utils/format';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -26,13 +27,23 @@ const FinancialTable: React.FC<Props> = ({ records, onEdit, onDelete }) => {
       { field: 'type', headerName: 'Tipo', flex: 1 },
       { field: 'category', headerName: 'Categoria', flex: 1 },
       { field: 'description', headerName: 'Descrição', flex: 1 },
-      { field: 'value', headerName: 'Valor', flex: 1 },
-      { field: 'date', headerName: 'Data', flex: 1 },
+      {
+        field: 'value',
+        headerName: 'Valor',
+        flex: 1,
+        valueFormatter: (p) => formatCurrency(typeof p.value === 'number' ? p.value : Number(p.value ?? 0)),
+      },
+      {
+        field: 'date',
+        headerName: 'Data',
+        flex: 1,
+        valueFormatter: (p) => formatDate((p.value as string) ?? ''),
+      },
       {
         field: 'lot_id',
         headerName: 'Lote',
         flex: 1,
-        valueGetter: params => params.row.lot_id ?? '',
+        valueGetter: (params) => (params?.row?.lot_id ?? ''),
       },
       {
         field: 'actions',

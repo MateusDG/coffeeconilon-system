@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { Grid, Box, TextField, Button, Typography, Link, Alert, CircularProgress } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Grid, Box, TextField, Button, Typography, Link, Alert, CircularProgress, Snackbar } from '@mui/material';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContexts';
-import logo from '../assets/logo.svg';
+import logo from '../assets/logo.png';
 
 const NewLogin: React.FC = () => {
   const { login } = useAuth();
@@ -11,6 +11,17 @@ const NewLogin: React.FC = () => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [notice, setNotice] = useState('');
+  const [snackOpen, setSnackOpen] = useState(false);
+
+  useEffect(() => {
+    const expired = localStorage.getItem('sessionExpired');
+    if (expired) {
+      setNotice('Sua sessão expirou. Faça login novamente.');
+      setSnackOpen(true);
+      localStorage.removeItem('sessionExpired');
+    }
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,11 +38,13 @@ const NewLogin: React.FC = () => {
   };
 
   return (
+    <>
     <Grid container component="main" sx={{ height: '100vh' }}>
       {/* Left side with form */}
       <Grid item xs={12} sm={8} md={5} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-        <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
-          <img src={logo} alt="logo" style={{ width: '250px', height: '250px' }} />
+        <Box sx={{ mb: 4, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <img src={logo} alt="SystemConilon" style={{ width: '220px', height: '220px', objectFit: 'contain' }} />
+          <Typography variant="h3" sx={{ mt: 1, fontWeight: 600, letterSpacing: 0.5 }}>SystemConilon</Typography>
         </Box>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1, width: '80%' }}>
           <TextField
@@ -60,6 +73,7 @@ const NewLogin: React.FC = () => {
             onChange={(e) => setPassword(e.target.value)}
             sx={{ borderRadius: '16px', '& .MuiOutlinedInput-root': { borderRadius: '16px' } }}
           />
+          {notice && <Alert severity="info" sx={{ mb: 1 }}>{notice}</Alert>}
           {error && <Alert severity="error">{error}</Alert>}
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 1 }}>
             <Link component={RouterLink} to="#" variant="body2">
@@ -115,6 +129,14 @@ const NewLogin: React.FC = () => {
         </Box>
       </Grid>
     </Grid>
+      <Snackbar
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        open={snackOpen}
+        autoHideDuration={4000}
+        onClose={() => setSnackOpen(false)}
+        message={notice}
+      />
+  </>
   );
 };
 

@@ -3,6 +3,7 @@ from typing import Optional, List
 from datetime import datetime
 
 from app.models.stock import Stock
+from app.models.lot import Lot
 from app.schemas.stock import StockCreate, StockUpdate
 
 
@@ -10,8 +11,11 @@ def get_movement(db: Session, movement_id: int) -> Optional[Stock]:
     return db.query(Stock).filter(Stock.id == movement_id).first()
 
 
-def get_movements(db: Session, skip: int = 0, limit: int = 100) -> List[Stock]:
-    return db.query(Stock).offset(skip).limit(limit).all()
+def get_movements(db: Session, skip: int = 0, limit: int = 100, farm_id: Optional[int] = None) -> List[Stock]:
+    query = db.query(Stock)
+    if farm_id:
+        query = query.join(Lot, Stock.lot_id == Lot.id, isouter=True).filter(Lot.farm_id == farm_id)
+    return query.offset(skip).limit(limit).all()
 
 
 def create_movement(db: Session, stock_in: StockCreate) -> Stock:
