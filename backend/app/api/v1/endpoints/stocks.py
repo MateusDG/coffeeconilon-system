@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.orm import Session
 from typing import List
 
@@ -15,21 +15,34 @@ from app.crud.crud_stock import (
 router = APIRouter(
     prefix="/stocks",
     tags=["stocks"],
-    dependencies=[Depends(get_current_user)],
 )
 
 @router.post("", response_model=StockRead, status_code=status.HTTP_201_CREATED)
-def create_new_movement(stock_in: StockCreate, db: Session = Depends(get_db)):
+def create_new_movement(
+    stock_in: StockCreate,
+    db: Session = Depends(get_db),
+    current_user=Depends(get_current_user),
+):
     return create_movement(db, stock_in)
 
 
 @router.get("", response_model=List[StockRead])
-def read_movements(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    return get_movements(db, skip, limit)
+def read_movements(
+    skip: int = 0,
+    limit: int = 100,
+    farm_id: int | None = Query(None),
+    db: Session = Depends(get_db),
+    current_user=Depends(get_current_user),
+):
+    return get_movements(db, skip=skip, limit=limit, farm_id=farm_id)
 
 
 @router.get("/{movement_id}", response_model=StockRead)
-def read_movement(movement_id: int, db: Session = Depends(get_db)):
+def read_movement(
+    movement_id: int,
+    db: Session = Depends(get_db),
+    current_user=Depends(get_current_user),
+):
     db_mov = get_movement(db, movement_id)
     if not db_mov:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Movement not found")
@@ -37,7 +50,12 @@ def read_movement(movement_id: int, db: Session = Depends(get_db)):
 
 
 @router.put("/{movement_id}", response_model=StockRead)
-def update_existing_movement(movement_id: int, stock_in: StockUpdate, db: Session = Depends(get_db)):
+def update_existing_movement(
+    movement_id: int,
+    stock_in: StockUpdate,
+    db: Session = Depends(get_db),
+    current_user=Depends(get_current_user),
+):
     db_mov = get_movement(db, movement_id)
     if not db_mov:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Movement not found")
@@ -45,7 +63,11 @@ def update_existing_movement(movement_id: int, stock_in: StockUpdate, db: Sessio
 
 
 @router.delete("/{movement_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_existing_movement(movement_id: int, db: Session = Depends(get_db)):
+def delete_existing_movement(
+    movement_id: int,
+    db: Session = Depends(get_db),
+    current_user=Depends(get_current_user),
+):
     db_mov = get_movement(db, movement_id)
     if not db_mov:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Movement not found")

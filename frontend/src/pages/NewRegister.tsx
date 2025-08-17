@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Grid, Box, TextField, Button, Typography, Link, Alert, CircularProgress } from '@mui/material';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContexts';
-import logo from '../assets/logo.svg';
+import logo from '../assets/logo.png';
 
 const NewRegister: React.FC = () => {
   const { register } = useAuth();

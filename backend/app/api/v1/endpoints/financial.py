@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.orm import Session
 from typing import List
 
@@ -15,21 +15,34 @@ from app.crud.crud_financial import (
 router = APIRouter(
     prefix="/financial",
     tags=["financial"],
-    dependencies=[Depends(get_current_user)],
 )
 
 @router.post("", response_model=FinancialRead, status_code=status.HTTP_201_CREATED)
-def create_new_record(record_in: FinancialCreate, db: Session = Depends(get_db)):
+def create_new_record(
+    record_in: FinancialCreate,
+    db: Session = Depends(get_db),
+    current_user=Depends(get_current_user),
+):
     return create_record(db, record_in)
 
 
 @router.get("", response_model=List[FinancialRead])
-def read_records(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    return get_records(db, skip, limit)
+def read_records(
+    skip: int = 0,
+    limit: int = 100,
+    farm_id: int | None = Query(None),
+    db: Session = Depends(get_db),
+    current_user=Depends(get_current_user),
+):
+    return get_records(db, skip=skip, limit=limit, farm_id=farm_id)
 
 
 @router.get("/{record_id}", response_model=FinancialRead)
-def read_record(record_id: int, db: Session = Depends(get_db)):
+def read_record(
+    record_id: int,
+    db: Session = Depends(get_db),
+    current_user=Depends(get_current_user),
+):
     db_record = get_record(db, record_id)
     if not db_record:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Record not found")
@@ -37,7 +50,12 @@ def read_record(record_id: int, db: Session = Depends(get_db)):
 
 
 @router.put("/{record_id}", response_model=FinancialRead)
-def update_existing_record(record_id: int, record_in: FinancialUpdate, db: Session = Depends(get_db)):
+def update_existing_record(
+    record_id: int,
+    record_in: FinancialUpdate,
+    db: Session = Depends(get_db),
+    current_user=Depends(get_current_user),
+):
     db_record = get_record(db, record_id)
     if not db_record:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Record not found")
@@ -45,7 +63,11 @@ def update_existing_record(record_id: int, record_in: FinancialUpdate, db: Sessi
 
 
 @router.delete("/{record_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_existing_record(record_id: int, db: Session = Depends(get_db)):
+def delete_existing_record(
+    record_id: int,
+    db: Session = Depends(get_db),
+    current_user=Depends(get_current_user),
+):
     db_record = get_record(db, record_id)
     if not db_record:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Record not found")

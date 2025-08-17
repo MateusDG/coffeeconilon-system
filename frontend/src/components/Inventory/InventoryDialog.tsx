@@ -12,6 +12,8 @@ import {
   TextField,
 } from '@mui/material';
 import type { Lot } from '../Lots/LotsTable';
+import { STOCK_UNITS } from '../../utils/format';
+import { getEnums } from '../../services/meta';
 
 export interface StockForm {
   product: string;
@@ -40,10 +42,25 @@ const InventoryDialog: React.FC<Props> = ({
   onSave,
 }) => {
   const [form, setForm] = useState<StockForm>(initialForm);
+  const [units, setUnits] = useState(STOCK_UNITS);
 
   useEffect(() => {
     setForm(initialForm);
   }, [initialForm]);
+
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const meta = await getEnums();
+        if (meta.stock_units?.length) {
+          setUnits(meta.stock_units.map((u) => ({ value: u, label: u })));
+        }
+      } catch {
+        // ignore fallback
+      }
+    };
+    load();
+  }, []);
 
   const handleSave = () => {
     onSave(form);
@@ -66,8 +83,31 @@ const InventoryDialog: React.FC<Props> = ({
             <MenuItem value="OUT">Saída</MenuItem>
           </Select>
         </FormControl>
-        <TextField label="Quantidade" fullWidth margin="dense" value={form.quantity} onChange={e => setForm({ ...form, quantity: e.target.value })} />
-        <TextField label="Unidade" fullWidth margin="dense" value={form.unit} onChange={e => setForm({ ...form, unit: e.target.value })} />
+        <TextField
+          label="Quantidade"
+          fullWidth
+          margin="dense"
+          inputMode="decimal"
+          placeholder="0,000"
+          value={form.quantity}
+          onChange={e => {
+            const v = e.target.value.replace(/[^0-9,.-]/g, '');
+            setForm({ ...form, quantity: v });
+          }}
+        />
+        <FormControl fullWidth margin="dense">
+          <InputLabel id="unit-label">Unidade</InputLabel>
+          <Select
+            labelId="unit-label"
+            value={form.unit}
+            label="Unidade"
+            onChange={e => setForm({ ...form, unit: e.target.value as string })}
+          >
+            {units.map(u => (
+              <MenuItem key={u.value} value={u.value}>{u.label}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
         <TextField label="Data" type="date" fullWidth margin="dense" value={form.date} onChange={e => setForm({ ...form, date: e.target.value })} InputLabelProps={{ shrink: true }} />
         <FormControl fullWidth margin="dense">
           <InputLabel id="lot-label">Lote</InputLabel>

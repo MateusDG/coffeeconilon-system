@@ -9,7 +9,7 @@ class Lot(TimestampMixin, Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(80), nullable=False)
     area_ha = Column(Float, nullable=False)  # hectares
-    farm_id = Column(Integer, ForeignKey("farms.id"), nullable=False)
+    farm_id = Column(Integer, ForeignKey("farms.id"), nullable=False, index=True)
     crop_year = Column(Integer)
     coordinates = Column(JSON)
 

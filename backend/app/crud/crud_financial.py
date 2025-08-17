@@ -3,6 +3,7 @@ from typing import Optional, List
 from datetime import datetime
 
 from app.models.financial import Financial
+from app.models.lot import Lot
 from app.schemas.financial import FinancialCreate, FinancialUpdate
 
 
@@ -10,8 +11,16 @@ def get_record(db: Session, record_id: int) -> Optional[Financial]:
     return db.query(Financial).filter(Financial.id == record_id).first()
 
 
-def get_records(db: Session, skip: int = 0, limit: int = 100) -> List[Financial]:
-    return db.query(Financial).offset(skip).limit(limit).all()
+def get_records(db: Session, skip: int = 0, limit: int = 100, farm_id: Optional[int] = None) -> List[Financial]:
+    query = db.query(Financial)
+    if farm_id:
+        query = query.join(Lot, Financial.lot_id == Lot.id, isouter=True).filter(Lot.farm_id == farm_id)
+    return (
+        query.order_by(Financial.date.desc(), Financial.created_at.desc())
+        .offset(skip)
+        .limit(limit)
+        .all()
+    )
 
 
 def create_record(db: Session, record_in: FinancialCreate) -> Financial:
@@ -44,6 +53,10 @@ def update_record(db: Session, db_record: Financial, record_in: FinancialUpdate)
         db_record.value = record_in.value
     if record_in.date is not None:
         db_record.date = record_in.date
+    if record_in.crop_id is not None:
+        db_record.crop_id = record_in.crop_id
+    if record_in.lot_id is not None:
+        db_record.lot_id = record_in.lot_id
     db_record.updated_at = datetime.utcnow()
     db.commit()
     db.refresh(db_record)
