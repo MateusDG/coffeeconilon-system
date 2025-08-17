@@ -4,8 +4,30 @@ import api from '../services/api';
 import FinancialTable, { FinancialRecord } from '../components/Financial/FinancialTable';
 import FinancialDialog, { FinancialForm } from '../components/Financial/FinancialDialog';
 import type { Lot } from '../components/Lots/LotsTable';
+<<<<<<< HEAD
 import { parseCurrency, toApiDate, fromApiDateToIso } from '../utils/format';
 import { FinancialService } from '../services/financial';
+=======
+<<<<<<< HEAD
+import { parseCurrency, toApiDate, fromApiDateToIso } from '../utils/format';
+import { FinancialService } from '../services/financial';
+=======
+<<<<<<< HEAD
+import { parseCurrency, toApiDate, fromApiDateToIso } from '../utils/format';
+import { FinancialService } from '../services/financial';
+=======
+<<<<<<< HEAD
+import { parseCurrency, toApiDate, fromApiDateToIso } from '../utils/format';
+=======
+<<<<<<< HEAD
+import { parseCurrency, toApiDate, fromApiDateToIso } from '../utils/format';
+=======
+import { parseCurrency } from '../utils/format';
+>>>>>>> ba42668069ff50cd05bba0251d51dbceb6f042f4
+>>>>>>> 6458800b61a86440f725aff4cb0266f369b61b5b
+>>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
+>>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
+>>>>>>> f7c069de203884441268ff5818b449f8c362840e
 
 const FinancialPage: React.FC = () => {
   const [records, setRecords] = useState<FinancialRecord[]>([]);
@@ -55,6 +77,13 @@ const FinancialPage: React.FC = () => {
   }, []);
 
   const handleSave = async (data: FinancialForm) => {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
+>>>>>>> f7c069de203884441268ff5818b449f8c362840e
     const extractMsg = (e: any) => {
       const detail = e?.response?.data?.detail;
       if (!detail) return 'Erro ao salvar';
@@ -66,10 +95,35 @@ const FinancialPage: React.FC = () => {
       }
       return 'Erro ao salvar';
     };
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
+>>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
+>>>>>>> f7c069de203884441268ff5818b449f8c362840e
     const payload: any = {
       type: data.type,
       category: data.category,
       description: data.description || null,
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+      value: parseCurrency(data.value),
+      date: data.date,
+>>>>>>> ba42668069ff50cd05bba0251d51dbceb6f042f4
+>>>>>>> 6458800b61a86440f725aff4cb0266f369b61b5b
+>>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
+>>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
+>>>>>>> f7c069de203884441268ff5818b449f8c362840e
       lot_id: data.lot_id ? Number(data.lot_id) : null,
     };
     // For create, value and date are required; for update, include only if provided
@@ -106,9 +160,28 @@ const FinancialPage: React.FC = () => {
       setOpen(false);
       setEditing(null);
       setForm({ type: 'IN', category: 'sale', description: '', value: '', date: '', lot_id: '' });
+<<<<<<< HEAD
       await loadData();
     } catch (e: any) {
       setError(extractMsg(e));
+=======
+<<<<<<< HEAD
+      await loadData();
+    } catch (e: any) {
+      setError(extractMsg(e));
+=======
+<<<<<<< HEAD
+      await loadData();
+    } catch (e: any) {
+      setError(extractMsg(e));
+=======
+      loadData();
+    } catch (e: any) {
+      const msg = e?.response?.data?.detail || 'Erro ao salvar';
+      setError(typeof msg === 'string' ? msg : 'Erro ao salvar');
+>>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
+>>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
+>>>>>>> f7c069de203884441268ff5818b449f8c362840e
     }
   };
 

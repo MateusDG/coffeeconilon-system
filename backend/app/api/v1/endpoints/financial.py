@@ -30,11 +30,24 @@ def create_new_record(
 def read_records(
     skip: int = 0,
     limit: int = 100,
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> f7c069de203884441268ff5818b449f8c362840e
     farm_id: int | None = Query(None),
     db: Session = Depends(get_db),
     current_user=Depends(get_current_user),
 ):
     return get_records(db, skip=skip, limit=limit, farm_id=farm_id)
+<<<<<<< HEAD
+=======
+=======
+    db: Session = Depends(get_db),
+    current_user=Depends(get_current_user),
+):
+    return get_records(db, skip, limit)
+>>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
+>>>>>>> f7c069de203884441268ff5818b449f8c362840e
 
 
 @router.get("/{record_id}", response_model=FinancialRead)
