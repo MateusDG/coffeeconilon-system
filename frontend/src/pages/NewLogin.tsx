@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Grid, Box, TextField, Button, Typography, Link, Alert, CircularProgress } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Grid, Box, TextField, Button, Typography, Link, Alert, CircularProgress, Snackbar } from '@mui/material';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContexts';
 import logo from '../assets/logo.svg';
@@ -11,6 +11,17 @@ const NewLogin: React.FC = () => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [notice, setNotice] = useState('');
+  const [snackOpen, setSnackOpen] = useState(false);
+
+  useEffect(() => {
+    const expired = localStorage.getItem('sessionExpired');
+    if (expired) {
+      setNotice('Sua sessão expirou. Faça login novamente.');
+      setSnackOpen(true);
+      localStorage.removeItem('sessionExpired');
+    }
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,6 +38,7 @@ const NewLogin: React.FC = () => {
   };
 
   return (
+    <>
     <Grid container component="main" sx={{ height: '100vh' }}>
       {/* Left side with form */}
       <Grid item xs={12} sm={8} md={5} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
@@ -60,6 +72,7 @@ const NewLogin: React.FC = () => {
             onChange={(e) => setPassword(e.target.value)}
             sx={{ borderRadius: '16px', '& .MuiOutlinedInput-root': { borderRadius: '16px' } }}
           />
+          {notice && <Alert severity="info" sx={{ mb: 1 }}>{notice}</Alert>}
           {error && <Alert severity="error">{error}</Alert>}
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 1 }}>
             <Link component={RouterLink} to="#" variant="body2">
@@ -115,6 +128,14 @@ const NewLogin: React.FC = () => {
         </Box>
       </Grid>
     </Grid>
+      <Snackbar
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        open={snackOpen}
+        autoHideDuration={4000}
+        onClose={() => setSnackOpen(false)}
+        message={notice}
+      />
+  </>
   );
 };
 

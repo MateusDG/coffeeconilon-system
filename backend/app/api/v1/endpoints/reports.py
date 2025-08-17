@@ -2,10 +2,11 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from app.core.database import SessionLocal
+from app.dependencies import get_current_user
 from app.schemas.report import ReportFilter, ReportResponse
 from app.crud.crud_report import generate_report
 
-router = APIRouter(prefix="/reports", tags=["reports"])
+router = APIRouter(prefix="/reports", tags=["reports"], dependencies=[Depends(get_current_user)])
 
 def get_db():
     db = SessionLocal()

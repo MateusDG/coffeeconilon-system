@@ -4,6 +4,7 @@ import api from '../services/api';
 import CropsTable, { Crop } from '../components/Crops/CropsTable';
 import CropDialog, { CropForm } from '../components/Crops/CropDialog';
 import type { Lot } from '../components/Lots/LotsTable';
+import { toApiDate, fromApiDateToIso } from '../utils/format';
 
 const CropsPage: React.FC = () => {
   const [crops, setCrops] = useState<Crop[]>([]);
@@ -42,8 +43,8 @@ const CropsPage: React.FC = () => {
   const handleSave = async (data: CropForm) => {
     const payload = {
       lot_id: Number(data.lot_id),
-      planted_date: data.planted_date,
-      harvested_date: data.harvested_date || null,
+      planted_date: toApiDate(data.planted_date),
+      harvested_date: data.harvested_date ? toApiDate(data.harvested_date) : null,
       yield_bags: data.yield_bags ? Number(data.yield_bags) : null,
     };
     try {
@@ -74,8 +75,8 @@ const CropsPage: React.FC = () => {
     setEditing(c);
     setForm({
       lot_id: String(c.lot_id),
-      planted_date: c.planted_date,
-      harvested_date: c.harvested_date || '',
+      planted_date: fromApiDateToIso(c.planted_date),
+      harvested_date: c.harvested_date ? fromApiDateToIso(c.harvested_date) : '',
       yield_bags: c.yield_bags?.toString() || '',
     });
     setOpen(true);

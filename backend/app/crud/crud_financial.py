@@ -44,6 +44,10 @@ def update_record(db: Session, db_record: Financial, record_in: FinancialUpdate)
         db_record.value = record_in.value
     if record_in.date is not None:
         db_record.date = record_in.date
+    if record_in.crop_id is not None:
+        db_record.crop_id = record_in.crop_id
+    if record_in.lot_id is not None:
+        db_record.lot_id = record_in.lot_id
     db_record.updated_at = datetime.utcnow()
     db.commit()
     db.refresh(db_record)
