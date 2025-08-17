@@ -100,6 +100,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           >
             <MenuIcon />
           </IconButton>
+<<<<<<< HEAD
           <Box sx={{ display: 'flex', alignItems: 'center', mr: 2 }}>
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
               <Box component="img" src={logo} alt="SystemConilon" sx={{ height: 36, width: 'auto' }} />
@@ -111,6 +112,11 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
               </Typography>
             </Box>
           </Box>
+=======
+          <Typography variant="h6" sx={{ mr: 2 }}>
+            Coffee Conilon
+          </Typography>
+>>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
           <Box
             sx={{
               position: 'relative',

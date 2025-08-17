@@ -4,7 +4,18 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
+<<<<<<< HEAD
 from fastapi.encoders import jsonable_encoder
+=======
+<<<<<<< HEAD
+from fastapi.encoders import jsonable_encoder
+=======
+<<<<<<< HEAD
+from fastapi.encoders import jsonable_encoder
+=======
+>>>>>>> 6458800b61a86440f725aff4cb0266f369b61b5b
+>>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
+>>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
 import logging
 from app.core.config import settings
 from app.core.database import Base, engine
@@ -45,7 +56,19 @@ app.add_middleware(
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
     logging.error("Validation error on %s: %s", request.url.path, exc.errors())
+<<<<<<< HEAD
     return JSONResponse(status_code=422, content=jsonable_encoder({"detail": exc.errors()}))
+=======
+<<<<<<< HEAD
+    return JSONResponse(status_code=422, content=jsonable_encoder({"detail": exc.errors()}))
+=======
+<<<<<<< HEAD
+    return JSONResponse(status_code=422, content=jsonable_encoder({"detail": exc.errors()}))
+=======
+    return JSONResponse(status_code=422, content={"detail": exc.errors()})
+>>>>>>> 6458800b61a86440f725aff4cb0266f369b61b5b
+>>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
+>>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
 
 # Cria as tabelas no banco
 Base.metadata.create_all(bind=engine)

@@ -62,6 +62,11 @@ def generate_report(db: Session, filters: ReportFilter) -> ReportResponse:
     total_in = to_dec(total_in_raw)
     total_out = to_dec(total_out_raw)
 
+    # Normalize to Decimal safely regardless of DB return type (None/int/str/Decimal)
+    to_dec = lambda x: Decimal(str(x)) if x is not None else Decimal("0")
+    total_in = to_dec(total_in_raw)
+    total_out = to_dec(total_out_raw)
+
     financial_summary = FinancialSummary(
         total_in=total_in,
         total_out=total_out,

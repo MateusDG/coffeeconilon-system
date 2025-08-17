@@ -30,11 +30,18 @@ def create_new_movement(
 def read_movements(
     skip: int = 0,
     limit: int = 100,
+<<<<<<< HEAD
     farm_id: int | None = Query(None),
     db: Session = Depends(get_db),
     current_user=Depends(get_current_user),
 ):
     return get_movements(db, skip=skip, limit=limit, farm_id=farm_id)
+=======
+    db: Session = Depends(get_db),
+    current_user=Depends(get_current_user),
+):
+    return get_movements(db, skip, limit)
+>>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
 
 
 @router.get("/{movement_id}", response_model=StockRead)

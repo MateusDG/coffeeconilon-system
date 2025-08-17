@@ -11,12 +11,19 @@ def get_record(db: Session, record_id: int) -> Optional[Financial]:
     return db.query(Financial).filter(Financial.id == record_id).first()
 
 
+<<<<<<< HEAD
 def get_records(db: Session, skip: int = 0, limit: int = 100, farm_id: Optional[int] = None) -> List[Financial]:
     query = db.query(Financial)
     if farm_id:
         query = query.join(Lot, Financial.lot_id == Lot.id, isouter=True).filter(Lot.farm_id == farm_id)
     return (
         query.order_by(Financial.date.desc(), Financial.created_at.desc())
+=======
+def get_records(db: Session, skip: int = 0, limit: int = 100) -> List[Financial]:
+    return (
+        db.query(Financial)
+        .order_by(Financial.date.desc(), Financial.created_at.desc())
+>>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
         .offset(skip)
         .limit(limit)
         .all()

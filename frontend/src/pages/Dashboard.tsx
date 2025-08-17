@@ -1,12 +1,32 @@
 import React, { Suspense, useEffect, useMemo, useState } from 'react';
+<<<<<<< HEAD
 import { Typography, Grid, Box, Stack, Button, TextField, Skeleton, Alert, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+=======
+import { Typography, Grid, Box, Stack, Button, TextField, Skeleton, Alert } from '@mui/material';
+>>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
 import { Link as RouterLink } from 'react-router-dom';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import PeopleIcon from '@mui/icons-material/People';
 import api from '../services/api';
+<<<<<<< HEAD
 import { FinancialService } from '../services/financial';
 import { parseApiDate } from '../utils/format';
+=======
+<<<<<<< HEAD
+import { FinancialService } from '../services/financial';
+import { parseApiDate } from '../utils/format';
+=======
+<<<<<<< HEAD
+import { parseApiDate } from '../utils/format';
+=======
+<<<<<<< HEAD
+import { parseApiDate } from '../utils/format';
+=======
+>>>>>>> ba42668069ff50cd05bba0251d51dbceb6f042f4
+>>>>>>> 6458800b61a86440f725aff4cb0266f369b61b5b
+>>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
+>>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
 import KpiCard from '../components/Dashboard/KpiCard';
 import RecentActivity from '../components/Dashboard/RecentActivity';
 import LowInventoryAlert from '../components/Dashboard/LowInventoryAlert';
@@ -16,8 +36,15 @@ import type { FinancialRecord } from '../components/Financial/FinancialTable';
 import type { StockRecord } from '../components/Inventory/InventoryTable';
 import type { Lot } from '../components/Lots/LotsTable';
 import type { Farm } from '../components/Farm/FarmsTable';
+<<<<<<< HEAD
 import FinancialDetailsDialog from '../components/Dashboard/FinancialDetailsDialog';
 import StockDetailsDialog from '../components/Dashboard/StockDetailsDialog';
+=======
+<<<<<<< HEAD
+import FinancialDetailsDialog from '../components/Dashboard/FinancialDetailsDialog';
+=======
+>>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
+>>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
 const DashboardCharts = React.lazy(() => import('../components/Dashboard/DashboardCharts'));
 
 
@@ -38,23 +65,44 @@ const DashboardPage: React.FC = () => {
   const [toMonth, setToMonth] = useState(() => storedTo ? new Date(Number(storedTo.split('-')[0]), Number(storedTo.split('-')[1]) - 1, 1) : new Date(today.getFullYear(), today.getMonth(), 1));
   const [lowThreshold, setLowThreshold] = useState<number>(() => storedThreshold ? Number(storedThreshold) : 5);
   const [welcomeDismissed, setWelcomeDismissed] = useState<boolean>(storedWelcomeDismissed);
+<<<<<<< HEAD
   const storedFarmId = typeof window !== 'undefined' ? localStorage.getItem('dashboard.farmId') : null;
   const storedLotId = typeof window !== 'undefined' ? localStorage.getItem('dashboard.lotId') : null;
   const [selectedFarmId, setSelectedFarmId] = useState<string>(storedFarmId || '');
   const [selectedLotId, setSelectedLotId] = useState<string>(storedLotId || '');
+=======
+>>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+<<<<<<< HEAD
         const farmIdParam = selectedFarmId ? Number(selectedFarmId) : undefined;
         const [fin, stk, usr, fr, lt] = await Promise.all([
           FinancialService.list(farmIdParam ? { farm_id: farmIdParam } : undefined),
           api.get('/stocks', { params: farmIdParam ? { farm_id: farmIdParam } : undefined }),
+=======
+        const [fin, stk, usr, fr, lt] = await Promise.all([
+<<<<<<< HEAD
+          FinancialService.list(),
+=======
+          api.get('/financial'),
+>>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
+          api.get('/stocks'),
+>>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
           api.get('/users'),
           api.get('/farms'),
           api.get('/lots'),
         ]);
+<<<<<<< HEAD
         setFinancial(fin);
+=======
+<<<<<<< HEAD
+        setFinancial(fin);
+=======
+        setFinancial(fin.data);
+>>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
+>>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
         setStocks(stk.data);
         setUsers(usr.data);
         setFarms(fr.data);
@@ -68,6 +116,7 @@ const DashboardPage: React.FC = () => {
     fetchData();
   }, [selectedFarmId]);
 
+<<<<<<< HEAD
   const farmLotsSet = useMemo(() => {
     if (!selectedFarmId) return null;
     const id = Number(selectedFarmId);
@@ -97,6 +146,13 @@ const DashboardPage: React.FC = () => {
   }, [stocks, farmLotsSet, selectedLotId]);
 
   const { finValueNow, finValuePrev, stockCountNow, stockCountPrev, finAllTimeNet } = useMemo(() => {
+=======
+<<<<<<< HEAD
+  const { finValueNow, finValuePrev, stockCountNow, stockCountPrev, finAllTimeNet } = useMemo(() => {
+=======
+  const { finValueNow, finValuePrev, stockCountNow, stockCountPrev } = useMemo(() => {
+>>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
+>>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
     const start = new Date(fromMonth.getFullYear(), fromMonth.getMonth(), 1);
     const end = new Date(toMonth.getFullYear(), toMonth.getMonth() + 1, 0, 23, 59, 59);
 
@@ -106,33 +162,83 @@ const DashboardPage: React.FC = () => {
     const prevStart = new Date(prevEnd.getFullYear(), prevEnd.getMonth() - (monthsSpan - 1), 1);
 
     const inRange = (d: string) => {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 6458800b61a86440f725aff4cb0266f369b61b5b
+>>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
+>>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
       const dt = parseApiDate(d);
       return dt >= start && dt <= end;
     };
     const inPrevRange = (d: string) => {
       const dt = parseApiDate(d);
+<<<<<<< HEAD
       return dt >= prevStart && dt <= prevEnd;
     };
 
     const finNow = filteredFinancial.filter(f => inRange(f.date));
     const finPrev = filteredFinancial.filter(f => inPrevRange(f.date));
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+=======
+      const dt = new Date(d);
+      return dt >= start && dt <= end;
+    };
+    const inPrevRange = (d: string) => {
+      const dt = new Date(d);
+>>>>>>> ba42668069ff50cd05bba0251d51dbceb6f042f4
+>>>>>>> 6458800b61a86440f725aff4cb0266f369b61b5b
+>>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
+      return dt >= prevStart && dt <= prevEnd;
+    };
+
+    const finNow = financial.filter(f => inRange(f.date));
+    const finPrev = financial.filter(f => inPrevRange(f.date));
+>>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
     // Sum IN - OUT
     const sumFin = (arr: any[]) => arr.reduce((acc, r) => acc + (r.type === 'IN' ? Number(r.value) : -Number(r.value || 0)), 0);
     const finValueNow = sumFin(finNow);
     const finValuePrev = sumFin(finPrev);
+<<<<<<< HEAD
     const finAllTimeNet = sumFin(filteredFinancial);
 
     const stockNow = filteredStocks.filter(s => inRange(s.date));
     const stockPrev = filteredStocks.filter(s => inPrevRange(s.date));
+=======
+<<<<<<< HEAD
+    const finAllTimeNet = sumFin(financial);
+=======
+>>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
+
+    const stockNow = stocks.filter(s => inRange(s.date));
+    const stockPrev = stocks.filter(s => inPrevRange(s.date));
+>>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
 
     return {
       finValueNow,
       finValuePrev,
       stockCountNow: stockNow.length,
       stockCountPrev: stockPrev.length,
+<<<<<<< HEAD
       finAllTimeNet,
     };
   }, [filteredFinancial, filteredStocks, fromMonth, toMonth]);
+=======
+<<<<<<< HEAD
+      finAllTimeNet,
+=======
+>>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
+    };
+  }, [financial, stocks, fromMonth, toMonth]);
+>>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
 
   const toPercentDelta = (now: number, prev: number) => {
     if (!isFinite(prev) || prev === 0) return now === 0 ? 0 : 100; // baseline
@@ -151,6 +257,7 @@ const DashboardPage: React.FC = () => {
   useEffect(() => {
     localStorage.setItem('dashboard.lowThreshold', String(lowThreshold));
   }, [lowThreshold]);
+<<<<<<< HEAD
 
   const [showFinDetails, setShowFinDetails] = useState(false);
   // Reset lot if farm changes and selected lot no longer belongs
@@ -164,6 +271,13 @@ const DashboardPage: React.FC = () => {
   }, [selectedFarmId, lots, selectedLotId]);
 
   const [showStockDetails, setShowStockDetails] = useState(false);
+=======
+<<<<<<< HEAD
+
+  const [showFinDetails, setShowFinDetails] = useState(false);
+=======
+>>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
+>>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
 
   return (
     <Grid container spacing={2}>
@@ -197,6 +311,7 @@ const DashboardPage: React.FC = () => {
                 value={monthToInput(toMonth)}
                 onChange={(e) => setToMonth(inputToMonth(e.target.value))}
               />
+<<<<<<< HEAD
               <FormControl size="small" sx={{ minWidth: 200 }}>
                 <InputLabel id="farm-label">Fazenda</InputLabel>
                 <Select
@@ -233,6 +348,8 @@ const DashboardPage: React.FC = () => {
                     ))}
                 </Select>
               </FormControl>
+=======
+>>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
             </Stack>
           </Stack>
         </Box>
@@ -243,7 +360,11 @@ const DashboardPage: React.FC = () => {
           <Skeleton variant="rounded" height={64} />
         ) : (
           <LowInventoryAlert
+<<<<<<< HEAD
             stocks={filteredStocks}
+=======
+            stocks={stocks}
+>>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
             threshold={lowThreshold}
             action={
               <TextField
@@ -266,10 +387,23 @@ const DashboardPage: React.FC = () => {
         ) : (
           <KpiCard
             icon={<AttachMoneyIcon color="primary" />}
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
             label="Resultado financeiro (total)"
             value={finAllTimeNet.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
             delta={0}
             help="Soma de todas as entradas menos saídas (todos os lançamentos)."
+<<<<<<< HEAD
+=======
+=======
+            label="Resultado financeiro"
+            value={finValueNow.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+            delta={toPercentDelta(finValueNow, finValuePrev)}
+            help="Soma de entradas menos saídas no período selecionado, comparado ao período anterior."
+>>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
+>>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
           />
         )}
       </Grid>
@@ -305,11 +439,16 @@ const DashboardPage: React.FC = () => {
         {loading ? (
           <Skeleton variant="rounded" height={360} />
         ) : (
+<<<<<<< HEAD
           <RecentActivity financial={filteredFinancial} stocks={filteredStocks} />
+=======
+          <RecentActivity financial={financial} stocks={stocks} />
+>>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
         )}
       </Grid>
       <Grid item xs={12} md={6}>
         <Suspense fallback={<Skeleton variant="rounded" height={360} />}>
+<<<<<<< HEAD
           <DashboardCharts
             financial={filteredFinancial}
             stocks={filteredStocks}
@@ -318,18 +457,36 @@ const DashboardPage: React.FC = () => {
             onExpand={() => setShowFinDetails(true)}
             onExpandStocks={() => setShowStockDetails(true)}
           />
+=======
+<<<<<<< HEAD
+          <DashboardCharts
+            financial={financial}
+            stocks={stocks}
+            from={fromMonth}
+            to={toMonth}
+            onExpand={() => setShowFinDetails(true)}
+          />
+=======
+          <DashboardCharts financial={financial} stocks={stocks} from={fromMonth} to={toMonth} />
+>>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
+>>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
         </Suspense>
       </Grid>
       <Grid item xs={12}>
         {loading ? (
           <Skeleton variant="rounded" height={220} />
         ) : (
+<<<<<<< HEAD
           <TasksPanel usersCount={users.length} financial={filteredFinancial} stocks={filteredStocks} farms={farms} lots={lots} />
+=======
+          <TasksPanel usersCount={users.length} financial={financial} stocks={stocks} farms={farms} lots={lots} />
+>>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
         )}
       </Grid>
       <FinancialDetailsDialog
         open={showFinDetails}
         onClose={() => setShowFinDetails(false)}
+<<<<<<< HEAD
         financial={filteredFinancial}
         from={fromMonth}
         to={toMonth}
@@ -338,6 +495,9 @@ const DashboardPage: React.FC = () => {
         open={showStockDetails}
         onClose={() => setShowStockDetails(false)}
         stocks={filteredStocks}
+=======
+        financial={financial}
+>>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
         from={fromMonth}
         to={toMonth}
       />

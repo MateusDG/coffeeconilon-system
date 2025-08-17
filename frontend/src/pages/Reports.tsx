@@ -43,12 +43,25 @@ const ReportsPage: React.FC = () => {
   useEffect(() => {
     const init = async () => {
       try {
+<<<<<<< HEAD
         const fr = await api.get('/farms');
         setFarms(fr.data || []);
         const lt = await api.get('/lots');
         setLots(lt.data || []);
       } catch {}
       await fetchReport();
+=======
+        const res = await api.get('/reports');
+        setData(res.data);
+      } catch (e: any) {
+        const detail = e?.response?.data?.detail;
+        if (typeof detail === 'string') setError(detail);
+        else if (Array.isArray(detail) && detail[0]?.msg) setError(detail[0].msg);
+        else setError('Erro ao carregar relatórios');
+      } finally {
+        setLoading(false);
+      }
+>>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
     };
     init();
   }, []);
