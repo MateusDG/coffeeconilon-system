@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 from pydantic import BaseModel, field_validator, field_serializer, condecimal
 from datetime import date, datetime
+=======
+from pydantic import BaseModel, field_validator, condecimal
+from datetime import date
+>>>>>>> ba42668069ff50cd05bba0251d51dbceb6f042f4
 from decimal import Decimal
 from typing import Optional
 from app.models.enums import FinancialType, FinancialCategory
@@ -12,6 +17,7 @@ class FinancialBase(BaseModel):
     value: condecimal(gt=0, max_digits=14, decimal_places=2)
     date: date
 
+<<<<<<< HEAD
     @field_validator("date", mode="before")
     @classmethod
     def parse_date_ddmmyyyy(cls, v):
@@ -25,6 +31,8 @@ class FinancialBase(BaseModel):
             raise ValueError("invalid date format; expected DD/MM/YYYY")
         return v
 
+=======
+>>>>>>> ba42668069ff50cd05bba0251d51dbceb6f042f4
     @field_validator("description")
     @classmethod
     def trim_description(cls, v: Optional[str]):
@@ -56,6 +64,7 @@ class FinancialUpdate(BaseModel):
     description: Optional[str] = None
     value: Optional[condecimal(gt=0, max_digits=14, decimal_places=2)] = None
     date: Optional[date] = None
+<<<<<<< HEAD
     crop_id: Optional[int] = None
     lot_id: Optional[int] = None
 
@@ -77,3 +86,5 @@ class FinancialUpdate(BaseModel):
                     continue
             raise ValueError("invalid date format; expected DD/MM/YYYY")
         return v
+=======
+>>>>>>> ba42668069ff50cd05bba0251d51dbceb6f042f4

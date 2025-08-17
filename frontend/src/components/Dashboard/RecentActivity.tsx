@@ -6,7 +6,10 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import { FinancialRecord } from '../Financial/FinancialTable';
 import { StockRecord } from '../Inventory/InventoryTable';
+<<<<<<< HEAD
 import { parseApiDate } from '../../utils/format';
+=======
+>>>>>>> ba42668069ff50cd05bba0251d51dbceb6f042f4
 
 interface Props {
   financial: FinancialRecord[];
@@ -38,7 +41,11 @@ const RecentActivity: React.FC<Props> = ({ financial, stocks }) => {
       date: s.date,
     }));
     return [...fin, ...stk]
+<<<<<<< HEAD
       .sort((a, b) => parseApiDate(b.date).getTime() - parseApiDate(a.date).getTime())
+=======
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+>>>>>>> ba42668069ff50cd05bba0251d51dbceb6f042f4
       .slice(0, 6);
   }, [financial, stocks]);
 
@@ -59,7 +66,11 @@ const RecentActivity: React.FC<Props> = ({ financial, stocks }) => {
                 </ListItemIcon>
                 <ListItemText
                   primary={it.title}
+<<<<<<< HEAD
                   secondary={parseApiDate(it.date).toLocaleDateString('pt-BR') + ' · ' + it.description}
+=======
+                  secondary={new Date(it.date).toLocaleDateString('pt-BR') + ' · ' + it.description}
+>>>>>>> ba42668069ff50cd05bba0251d51dbceb6f042f4
                 />
               </ListItem>
             ))}
@@ -71,3 +82,7 @@ const RecentActivity: React.FC<Props> = ({ financial, stocks }) => {
 };
 
 export default RecentActivity;
+<<<<<<< HEAD
+=======
+
+>>>>>>> ba42668069ff50cd05bba0251d51dbceb6f042f4

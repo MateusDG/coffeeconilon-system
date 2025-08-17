@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 from pydantic import BaseModel, condecimal, field_validator, field_serializer
 from datetime import date, datetime
+=======
+from pydantic import BaseModel, condecimal, field_validator
+from datetime import date
+>>>>>>> ba42668069ff50cd05bba0251d51dbceb6f042f4
 from typing import Optional
 from app.models.enums import MovementType, StockUnit
 
@@ -10,6 +15,7 @@ class StockBase(BaseModel):
     unit: StockUnit           # 'kg', 'sc', 't', 'un'
     date: date
 
+<<<<<<< HEAD
     @field_validator("date", mode="before")
     @classmethod
     def parse_date_ddmmyyyy(cls, v):
@@ -23,6 +29,8 @@ class StockBase(BaseModel):
             raise ValueError("invalid date format; expected DD/MM/YYYY")
         return v
 
+=======
+>>>>>>> ba42668069ff50cd05bba0251d51dbceb6f042f4
     @field_validator("product")
     @classmethod
     def trim_product(cls, v: str):
@@ -55,6 +63,7 @@ class StockUpdate(BaseModel):
     unit: Optional[StockUnit] = None
     date: Optional[date] = None
     lot_id: Optional[int] = None
+<<<<<<< HEAD
 
     @field_validator("date", mode="before")
     @classmethod
@@ -71,3 +80,5 @@ class StockUpdate(BaseModel):
                     continue
             raise ValueError("invalid date format; expected DD/MM/YYYY")
         return v
+=======
+>>>>>>> ba42668069ff50cd05bba0251d51dbceb6f042f4

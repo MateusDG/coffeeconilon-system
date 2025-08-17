@@ -5,7 +5,10 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import PeopleIcon from '@mui/icons-material/People';
 import api from '../services/api';
+<<<<<<< HEAD
 import { parseApiDate } from '../utils/format';
+=======
+>>>>>>> ba42668069ff50cd05bba0251d51dbceb6f042f4
 import KpiCard from '../components/Dashboard/KpiCard';
 import RecentActivity from '../components/Dashboard/RecentActivity';
 import LowInventoryAlert from '../components/Dashboard/LowInventoryAlert';
@@ -70,11 +73,19 @@ const DashboardPage: React.FC = () => {
     const prevStart = new Date(prevEnd.getFullYear(), prevEnd.getMonth() - (monthsSpan - 1), 1);
 
     const inRange = (d: string) => {
+<<<<<<< HEAD
       const dt = parseApiDate(d);
       return dt >= start && dt <= end;
     };
     const inPrevRange = (d: string) => {
       const dt = parseApiDate(d);
+=======
+      const dt = new Date(d);
+      return dt >= start && dt <= end;
+    };
+    const inPrevRange = (d: string) => {
+      const dt = new Date(d);
+>>>>>>> ba42668069ff50cd05bba0251d51dbceb6f042f4
       return dt >= prevStart && dt <= prevEnd;
     };
 
