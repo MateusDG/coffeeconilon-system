@@ -1,6 +1,10 @@
 # backend/app/schemas/report.py
 
+<<<<<<< HEAD
 from pydantic import BaseModel, field_validator, field_serializer
+=======
+from pydantic import BaseModel, field_validator
+>>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
 from datetime import date, datetime
 from typing import List, Optional
 from decimal import Decimal

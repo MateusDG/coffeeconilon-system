@@ -5,8 +5,19 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import PeopleIcon from '@mui/icons-material/People';
 import api from '../services/api';
+<<<<<<< HEAD
 import { FinancialService } from '../services/financial';
 import { parseApiDate } from '../utils/format';
+=======
+<<<<<<< HEAD
+import { parseApiDate } from '../utils/format';
+=======
+<<<<<<< HEAD
+import { parseApiDate } from '../utils/format';
+=======
+>>>>>>> ba42668069ff50cd05bba0251d51dbceb6f042f4
+>>>>>>> 6458800b61a86440f725aff4cb0266f369b61b5b
+>>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
 import KpiCard from '../components/Dashboard/KpiCard';
 import RecentActivity from '../components/Dashboard/RecentActivity';
 import LowInventoryAlert from '../components/Dashboard/LowInventoryAlert';
@@ -16,7 +27,10 @@ import type { FinancialRecord } from '../components/Financial/FinancialTable';
 import type { StockRecord } from '../components/Inventory/InventoryTable';
 import type { Lot } from '../components/Lots/LotsTable';
 import type { Farm } from '../components/Farm/FarmsTable';
+<<<<<<< HEAD
 import FinancialDetailsDialog from '../components/Dashboard/FinancialDetailsDialog';
+=======
+>>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
 const DashboardCharts = React.lazy(() => import('../components/Dashboard/DashboardCharts'));
 
 
@@ -42,13 +56,21 @@ const DashboardPage: React.FC = () => {
     const fetchData = async () => {
       try {
         const [fin, stk, usr, fr, lt] = await Promise.all([
+<<<<<<< HEAD
           FinancialService.list(),
+=======
+          api.get('/financial'),
+>>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
           api.get('/stocks'),
           api.get('/users'),
           api.get('/farms'),
           api.get('/lots'),
         ]);
+<<<<<<< HEAD
         setFinancial(fin);
+=======
+        setFinancial(fin.data);
+>>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
         setStocks(stk.data);
         setUsers(usr.data);
         setFarms(fr.data);
@@ -62,7 +84,11 @@ const DashboardPage: React.FC = () => {
     fetchData();
   }, []);
 
+<<<<<<< HEAD
   const { finValueNow, finValuePrev, stockCountNow, stockCountPrev, finAllTimeNet } = useMemo(() => {
+=======
+  const { finValueNow, finValuePrev, stockCountNow, stockCountPrev } = useMemo(() => {
+>>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
     const start = new Date(fromMonth.getFullYear(), fromMonth.getMonth(), 1);
     const end = new Date(toMonth.getFullYear(), toMonth.getMonth() + 1, 0, 23, 59, 59);
 
@@ -72,11 +98,31 @@ const DashboardPage: React.FC = () => {
     const prevStart = new Date(prevEnd.getFullYear(), prevEnd.getMonth() - (monthsSpan - 1), 1);
 
     const inRange = (d: string) => {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 6458800b61a86440f725aff4cb0266f369b61b5b
+>>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
       const dt = parseApiDate(d);
       return dt >= start && dt <= end;
     };
     const inPrevRange = (d: string) => {
       const dt = parseApiDate(d);
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+=======
+      const dt = new Date(d);
+      return dt >= start && dt <= end;
+    };
+    const inPrevRange = (d: string) => {
+      const dt = new Date(d);
+>>>>>>> ba42668069ff50cd05bba0251d51dbceb6f042f4
+>>>>>>> 6458800b61a86440f725aff4cb0266f369b61b5b
+>>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
       return dt >= prevStart && dt <= prevEnd;
     };
 
@@ -86,7 +132,10 @@ const DashboardPage: React.FC = () => {
     const sumFin = (arr: any[]) => arr.reduce((acc, r) => acc + (r.type === 'IN' ? Number(r.value) : -Number(r.value || 0)), 0);
     const finValueNow = sumFin(finNow);
     const finValuePrev = sumFin(finPrev);
+<<<<<<< HEAD
     const finAllTimeNet = sumFin(financial);
+=======
+>>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
 
     const stockNow = stocks.filter(s => inRange(s.date));
     const stockPrev = stocks.filter(s => inPrevRange(s.date));
@@ -96,7 +145,10 @@ const DashboardPage: React.FC = () => {
       finValuePrev,
       stockCountNow: stockNow.length,
       stockCountPrev: stockPrev.length,
+<<<<<<< HEAD
       finAllTimeNet,
+=======
+>>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
     };
   }, [financial, stocks, fromMonth, toMonth]);
 
@@ -117,8 +169,11 @@ const DashboardPage: React.FC = () => {
   useEffect(() => {
     localStorage.setItem('dashboard.lowThreshold', String(lowThreshold));
   }, [lowThreshold]);
+<<<<<<< HEAD
 
   const [showFinDetails, setShowFinDetails] = useState(false);
+=======
+>>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
 
   return (
     <Grid container spacing={2}>
@@ -185,10 +240,17 @@ const DashboardPage: React.FC = () => {
         ) : (
           <KpiCard
             icon={<AttachMoneyIcon color="primary" />}
+<<<<<<< HEAD
             label="Resultado financeiro (total)"
             value={finAllTimeNet.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
             delta={0}
             help="Soma de todas as entradas menos saídas (todos os lançamentos)."
+=======
+            label="Resultado financeiro"
+            value={finValueNow.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+            delta={toPercentDelta(finValueNow, finValuePrev)}
+            help="Soma de entradas menos saídas no período selecionado, comparado ao período anterior."
+>>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
           />
         )}
       </Grid>
@@ -229,6 +291,7 @@ const DashboardPage: React.FC = () => {
       </Grid>
       <Grid item xs={12} md={6}>
         <Suspense fallback={<Skeleton variant="rounded" height={360} />}>
+<<<<<<< HEAD
           <DashboardCharts
             financial={financial}
             stocks={stocks}
@@ -236,6 +299,9 @@ const DashboardPage: React.FC = () => {
             to={toMonth}
             onExpand={() => setShowFinDetails(true)}
           />
+=======
+          <DashboardCharts financial={financial} stocks={stocks} from={fromMonth} to={toMonth} />
+>>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
         </Suspense>
       </Grid>
       <Grid item xs={12}>

@@ -54,7 +54,19 @@ const InventoryPage: React.FC = () => {
         movement: data.movement,
         quantity: Number(data.quantity.replace(',', '.')),
         unit: data.unit,
+<<<<<<< HEAD
         date: toApiDate(data.date),
+=======
+<<<<<<< HEAD
+        date: toApiDate(data.date),
+=======
+<<<<<<< HEAD
+        date: toApiDate(data.date),
+=======
+        date: data.date,
+>>>>>>> ba42668069ff50cd05bba0251d51dbceb6f042f4
+>>>>>>> 6458800b61a86440f725aff4cb0266f369b61b5b
+>>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
         lot_id: data.lot_id ? Number(data.lot_id) : null,
       };
     try {

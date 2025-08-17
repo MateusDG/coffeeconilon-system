@@ -1,5 +1,20 @@
+<<<<<<< HEAD
 from pydantic import BaseModel, condecimal, field_validator, field_serializer
 from datetime import date, datetime
+=======
+<<<<<<< HEAD
+from pydantic import BaseModel, condecimal, field_validator, field_serializer
+from datetime import date, datetime
+=======
+<<<<<<< HEAD
+from pydantic import BaseModel, condecimal, field_validator, field_serializer
+from datetime import date, datetime
+=======
+from pydantic import BaseModel, condecimal, field_validator
+from datetime import date
+>>>>>>> ba42668069ff50cd05bba0251d51dbceb6f042f4
+>>>>>>> 6458800b61a86440f725aff4cb0266f369b61b5b
+>>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
 from typing import Optional
 from app.models.enums import MovementType, StockUnit
 
@@ -10,6 +25,13 @@ class StockBase(BaseModel):
     unit: StockUnit           # 'kg', 'sc', 't', 'un'
     date: date
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 6458800b61a86440f725aff4cb0266f369b61b5b
+>>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
     @field_validator("date", mode="before")
     @classmethod
     def parse_date_ddmmyyyy(cls, v):
@@ -23,6 +45,14 @@ class StockBase(BaseModel):
             raise ValueError("invalid date format; expected DD/MM/YYYY")
         return v
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> ba42668069ff50cd05bba0251d51dbceb6f042f4
+>>>>>>> 6458800b61a86440f725aff4cb0266f369b61b5b
+>>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
     @field_validator("product")
     @classmethod
     def trim_product(cls, v: str):
@@ -48,11 +78,14 @@ class StockRead(StockBase):
     def serialize_date(self, v: date):
         return v.strftime("%d/%m/%Y")
 
+<<<<<<< HEAD
     @field_serializer("quantity")
     def serialize_quantity(self, v):
         # Ensure frontend receives numeric value
         return float(v)
 
+=======
+>>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
 class StockUpdate(BaseModel):
     product: Optional[str] = None
     movement: Optional[MovementType] = None
@@ -60,6 +93,13 @@ class StockUpdate(BaseModel):
     unit: Optional[StockUnit] = None
     date: Optional[date] = None
     lot_id: Optional[int] = None
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 6458800b61a86440f725aff4cb0266f369b61b5b
+>>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
 
     @field_validator("date", mode="before")
     @classmethod
@@ -76,3 +116,11 @@ class StockUpdate(BaseModel):
                     continue
             raise ValueError("invalid date format; expected DD/MM/YYYY")
         return v
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> ba42668069ff50cd05bba0251d51dbceb6f042f4
+>>>>>>> 6458800b61a86440f725aff4cb0266f369b61b5b
+>>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7

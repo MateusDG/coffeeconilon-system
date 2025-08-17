@@ -1,7 +1,22 @@
 # backend/app/schemas/crop.py
 
+<<<<<<< HEAD
 from pydantic import BaseModel, field_validator, field_serializer
 from datetime import date, datetime
+=======
+<<<<<<< HEAD
+from pydantic import BaseModel, field_validator, field_serializer
+from datetime import date, datetime
+=======
+<<<<<<< HEAD
+from pydantic import BaseModel, field_validator, field_serializer
+from datetime import date, datetime
+=======
+from pydantic import BaseModel, field_validator
+from datetime import date
+>>>>>>> ba42668069ff50cd05bba0251d51dbceb6f042f4
+>>>>>>> 6458800b61a86440f725aff4cb0266f369b61b5b
+>>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
 from typing import Optional
 
 class CropBase(BaseModel):
@@ -55,6 +70,7 @@ class CropUpdate(BaseModel):
     planted_date: Optional[date]
     harvested_date: Optional[date]
     yield_bags: Optional[float]
+<<<<<<< HEAD
 
     @field_validator('planted_date', 'harvested_date', mode='before')
     @classmethod
@@ -71,3 +87,11 @@ class CropUpdate(BaseModel):
                     continue
             raise ValueError('invalid date format; expected DD/MM/YYYY')
         return v
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> ba42668069ff50cd05bba0251d51dbceb6f042f4
+>>>>>>> 6458800b61a86440f725aff4cb0266f369b61b5b
+>>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
