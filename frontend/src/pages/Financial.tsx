@@ -4,6 +4,7 @@ import api from '../services/api';
 import FinancialTable, { FinancialRecord } from '../components/Financial/FinancialTable';
 import FinancialDialog, { FinancialForm } from '../components/Financial/FinancialDialog';
 import type { Lot } from '../components/Lots/LotsTable';
+import { parseCurrency, toApiDate, fromApiDateToIso } from '../utils/format';
 
 const FinancialPage: React.FC = () => {
   const [records, setRecords] = useState<FinancialRecord[]>([]);
@@ -14,7 +15,7 @@ const FinancialPage: React.FC = () => {
   const [lots, setLots] = useState<Lot[]>([]);
   const [form, setForm] = useState<FinancialForm>({
     type: 'IN',
-    category: '',
+    category: 'sale',
     description: '',
     value: '',
     date: '',
@@ -47,14 +48,37 @@ const FinancialPage: React.FC = () => {
   }, []);
 
   const handleSave = async (data: FinancialForm) => {
-    const payload = {
+    const payload: any = {
       type: data.type,
       category: data.category,
       description: data.description || null,
-      value: Number(data.value),
-      date: data.date,
       lot_id: data.lot_id ? Number(data.lot_id) : null,
     };
+    // For create, value and date are required; for update, include only if provided
+    const parsedValue = parseCurrency(data.value);
+    if (!editing) {
+      if (!data.value || isNaN(parsedValue) || parsedValue <= 0) {
+        setError('Informe um valor válido (> 0).');
+        return;
+      }
+      if (!data.date) {
+        setError('Informe uma data.');
+        return;
+      }
+      payload.value = parsedValue;
+      payload.date = toApiDate(data.date);
+    } else {
+      if (data.value) {
+        if (isNaN(parsedValue) || parsedValue <= 0) {
+          setError('Valor inválido.');
+          return;
+        }
+        payload.value = parsedValue;
+      }
+      if (data.date) {
+        payload.date = toApiDate(data.date);
+      }
+    }
     try {
       if (editing) {
         await api.put(`/financial/${editing.id}`, payload);
@@ -63,10 +87,11 @@ const FinancialPage: React.FC = () => {
       }
       setOpen(false);
       setEditing(null);
-      setForm({ type: 'IN', category: '', description: '', value: '', date: '', lot_id: '' });
+      setForm({ type: 'IN', category: 'sale', description: '', value: '', date: '', lot_id: '' });
       loadData();
-    } catch {
-      setError('Erro ao salvar');
+    } catch (e: any) {
+      const msg = e?.response?.data?.detail || 'Erro ao salvar';
+      setError(typeof msg === 'string' ? msg : 'Erro ao salvar');
     }
   };
 
@@ -77,7 +102,7 @@ const FinancialPage: React.FC = () => {
       category: r.category,
       description: r.description || '',
       value: r.value.toString(),
-      date: r.date,
+      date: fromApiDateToIso(r.date),
       lot_id: r.lot_id ? String(r.lot_id) : '',
     });
     setOpen(true);
@@ -94,7 +119,7 @@ const FinancialPage: React.FC = () => {
 
   const handleNew = () => {
     setEditing(null);
-    setForm({ type: 'IN', category: '', description: '', value: '', date: '', lot_id: '' });
+    setForm({ type: 'IN', category: 'sale', description: '', value: '', date: '', lot_id: '' });
     setOpen(true);
   };
 
