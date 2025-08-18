@@ -2,7 +2,7 @@
 
 ### **Tema**
 
-O projeto final tem como tema o desenvolvimento de um sistema web chamado  *CoffeeConilon* , voltado à administração de propriedades agrícolas de café, incluindo controle de fazendas, talhões, safras, movimentações financeiras e estoque.
+O projeto final tem como tema o desenvolvimento de um sistema web chamado *SystemConilon*, voltado à administração de propriedades agrícolas de café, incluindo controle de fazendas, talhões, safras, movimentações financeiras e estoque.
 
 ### **Escopo**
 
@@ -34,7 +34,7 @@ Os protótipos das páginas principais (Login, Registro, Dashboard, Produtores, 
 
 #### Tela Inicial
 
-![1755469722270](image/README/1755469722270.png)
+![1755521222639](image/README/1755521222639.png)
 
 #### Dashboard
 
@@ -95,9 +95,6 @@ BD localizado em `backend\dev.db`
 ##### Lots
 
 ![1755518034967](image/README/1755518034967.png)
-
-
-
 
 ### **Referencia**
 
