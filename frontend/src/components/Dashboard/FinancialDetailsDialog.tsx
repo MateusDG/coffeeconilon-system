@@ -66,11 +66,6 @@ const FinancialDetailsDialog: React.FC<Props> = ({ open, onClose, financial, fro
     const net = totalIn - totalOut;
     return { items, totalIn, totalOut, net };
   }, [financial, selectedMonth]);
-
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> f7c069de203884441268ff5818b449f8c362840e
   const downloadCsv = (filename: string, rows: string[][]) => {
     const csv = rows.map(r => r.map(f => `"${String(f ?? '').replace(/"/g, '""')}"`).join(';')).join('\n');
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
@@ -95,11 +90,6 @@ const FinancialDetailsDialog: React.FC<Props> = ({ open, onClose, financial, fro
     downloadCsv(`financeiro_${selectedMonth || 'periodo'}.csv`, [header, ...rows]);
   };
 
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
->>>>>>> f7c069de203884441268ff5818b449f8c362840e
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="md">
       <DialogTitle>Detalhes do fluxo financeiro mensal</DialogTitle>
@@ -140,17 +130,10 @@ const FinancialDetailsDialog: React.FC<Props> = ({ open, onClose, financial, fro
               </TableRow>
             ))}
           </TableBody>
-        </Table>
+      </Table>
       </DialogContent>
       <DialogActions>
-<<<<<<< HEAD
         <Button onClick={exportMovementsCsv}>Exportar CSV</Button>
-=======
-<<<<<<< HEAD
-        <Button onClick={exportMovementsCsv}>Exportar CSV</Button>
-=======
->>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
->>>>>>> f7c069de203884441268ff5818b449f8c362840e
         <Button onClick={onClose}>Fechar</Button>
       </DialogActions>
     </Dialog>
@@ -158,10 +141,3 @@ const FinancialDetailsDialog: React.FC<Props> = ({ open, onClose, financial, fro
 };
 
 export default FinancialDetailsDialog;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-
->>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
->>>>>>> f7c069de203884441268ff5818b449f8c362840e

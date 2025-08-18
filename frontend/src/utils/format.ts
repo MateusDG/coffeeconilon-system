@@ -1,16 +1,3 @@
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 6458800b61a86440f725aff4cb0266f369b61b5b
->>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
->>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
->>>>>>> f7c069de203884441268ff5818b449f8c362840e
 export const formatDate = (input?: string | Date) => {
   if (!input) return '';
   if (input instanceof Date) return input.toLocaleDateString('pt-BR');
@@ -42,24 +29,6 @@ export const parseApiDate = (s: string): Date => {
     return new Date(Number(y), Number(m) - 1, Number(d));
   }
   return new Date(s);
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-=======
-export const formatDate = (iso?: string | Date) => {
-  if (!iso) return '';
-  const d = typeof iso === 'string' ? new Date(iso) : iso;
-  return d.toLocaleDateString('pt-BR');
->>>>>>> ba42668069ff50cd05bba0251d51dbceb6f042f4
->>>>>>> 6458800b61a86440f725aff4cb0266f369b61b5b
->>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
->>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
->>>>>>> f7c069de203884441268ff5818b449f8c362840e
 };
 
 export const formatCurrency = (n?: number) => {
@@ -68,19 +37,6 @@ export const formatCurrency = (n?: number) => {
 };
 
 export const parseCurrency = (s: string): number => {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 6458800b61a86440f725aff4cb0266f369b61b5b
->>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
->>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
->>>>>>> f7c069de203884441268ff5818b449f8c362840e
   if (!s) return NaN;
   const raw = s.replace(/\s/g, '').replace(/[^0-9.,-]/g, '');
   const lastComma = raw.lastIndexOf(',');
@@ -105,23 +61,6 @@ export const parseCurrency = (s: string): number => {
   }
   const num = Number(normalized);
   return isNaN(num) ? NaN : num;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-=======
-  const normalized = s.replace(/[^0-9,.-]/g, '').replace(',', '.');
-  const num = Number(normalized);
-  return isNaN(num) ? 0 : num;
->>>>>>> ba42668069ff50cd05bba0251d51dbceb6f042f4
->>>>>>> 6458800b61a86440f725aff4cb0266f369b61b5b
->>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
->>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
->>>>>>> f7c069de203884441268ff5818b449f8c362840e
 };
 
 export const formatNumber = (n?: number, decimals = 2) => {
@@ -144,19 +83,3 @@ export const STOCK_UNITS = [
   { value: 't', label: 'tonelada' },
   { value: 'un', label: 'unidade' },
 ];
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-
->>>>>>> ba42668069ff50cd05bba0251d51dbceb6f042f4
->>>>>>> 6458800b61a86440f725aff4cb0266f369b61b5b
->>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
->>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
->>>>>>> f7c069de203884441268ff5818b449f8c362840e

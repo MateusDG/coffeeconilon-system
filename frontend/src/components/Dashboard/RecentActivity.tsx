@@ -6,26 +6,7 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import { FinancialRecord } from '../Financial/FinancialTable';
 import { StockRecord } from '../Inventory/InventoryTable';
-<<<<<<< HEAD
 import { parseApiDate, formatCurrency } from '../../utils/format';
-=======
-<<<<<<< HEAD
-import { parseApiDate, formatCurrency } from '../../utils/format';
-=======
-<<<<<<< HEAD
-import { parseApiDate, formatCurrency } from '../../utils/format';
-=======
-<<<<<<< HEAD
-import { parseApiDate } from '../../utils/format';
-=======
-<<<<<<< HEAD
-import { parseApiDate } from '../../utils/format';
-=======
->>>>>>> ba42668069ff50cd05bba0251d51dbceb6f042f4
->>>>>>> 6458800b61a86440f725aff4cb0266f369b61b5b
->>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
->>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
->>>>>>> f7c069de203884441268ff5818b449f8c362840e
 
 interface Props {
   financial: FinancialRecord[];
@@ -46,19 +27,7 @@ const RecentActivity: React.FC<Props> = ({ financial, stocks }) => {
       id: `f-${f.id}`,
       type: 'financial' as const,
       title: `${f.type} · ${f.category}`,
-<<<<<<< HEAD
       description: `${formatCurrency(Number((f as any).value))}${f.description ? ` — ${f.description}` : ''}`,
-=======
-<<<<<<< HEAD
-      description: `${formatCurrency(Number((f as any).value))}${f.description ? ` — ${f.description}` : ''}`,
-=======
-<<<<<<< HEAD
-      description: `${formatCurrency(Number((f as any).value))}${f.description ? ` — ${f.description}` : ''}`,
-=======
-      description: `${(f.value ?? 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}${f.description ? ` — ${f.description}` : ''}`,
->>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
->>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
->>>>>>> f7c069de203884441268ff5818b449f8c362840e
       date: f.date,
     }));
     const stk = stocks.map((s) => ({
@@ -69,27 +38,7 @@ const RecentActivity: React.FC<Props> = ({ financial, stocks }) => {
       date: s.date,
     }));
     return [...fin, ...stk]
-<<<<<<< HEAD
       .sort((a, b) => parseApiDate(b.date).getTime() - parseApiDate(a.date).getTime())
-=======
-<<<<<<< HEAD
-      .sort((a, b) => parseApiDate(b.date).getTime() - parseApiDate(a.date).getTime())
-=======
-<<<<<<< HEAD
-      .sort((a, b) => parseApiDate(b.date).getTime() - parseApiDate(a.date).getTime())
-=======
-<<<<<<< HEAD
-      .sort((a, b) => parseApiDate(b.date).getTime() - parseApiDate(a.date).getTime())
-=======
-<<<<<<< HEAD
-      .sort((a, b) => parseApiDate(b.date).getTime() - parseApiDate(a.date).getTime())
-=======
-      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
->>>>>>> ba42668069ff50cd05bba0251d51dbceb6f042f4
->>>>>>> 6458800b61a86440f725aff4cb0266f369b61b5b
->>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
->>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
->>>>>>> f7c069de203884441268ff5818b449f8c362840e
       .slice(0, 6);
   }, [financial, stocks]);
 
@@ -110,27 +59,7 @@ const RecentActivity: React.FC<Props> = ({ financial, stocks }) => {
                 </ListItemIcon>
                 <ListItemText
                   primary={it.title}
-<<<<<<< HEAD
                   secondary={parseApiDate(it.date).toLocaleDateString('pt-BR') + ' · ' + it.description}
-=======
-<<<<<<< HEAD
-                  secondary={parseApiDate(it.date).toLocaleDateString('pt-BR') + ' · ' + it.description}
-=======
-<<<<<<< HEAD
-                  secondary={parseApiDate(it.date).toLocaleDateString('pt-BR') + ' · ' + it.description}
-=======
-<<<<<<< HEAD
-                  secondary={parseApiDate(it.date).toLocaleDateString('pt-BR') + ' · ' + it.description}
-=======
-<<<<<<< HEAD
-                  secondary={parseApiDate(it.date).toLocaleDateString('pt-BR') + ' · ' + it.description}
-=======
-                  secondary={new Date(it.date).toLocaleDateString('pt-BR') + ' · ' + it.description}
->>>>>>> ba42668069ff50cd05bba0251d51dbceb6f042f4
->>>>>>> 6458800b61a86440f725aff4cb0266f369b61b5b
->>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
->>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
->>>>>>> f7c069de203884441268ff5818b449f8c362840e
                 />
               </ListItem>
             ))}
@@ -142,19 +71,3 @@ const RecentActivity: React.FC<Props> = ({ financial, stocks }) => {
 };
 
 export default RecentActivity;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-
->>>>>>> ba42668069ff50cd05bba0251d51dbceb6f042f4
->>>>>>> 6458800b61a86440f725aff4cb0266f369b61b5b
->>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
->>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
->>>>>>> f7c069de203884441268ff5818b449f8c362840e

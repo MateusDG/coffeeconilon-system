@@ -35,18 +35,8 @@ export interface FinancialUpdateDTO {
 }
 
 export const FinancialService = {
-<<<<<<< HEAD
   async list(params?: Record<string, any>): Promise<FinancialRecord[]> {
     const res = await api.get<FinancialRecord[]>('/financial', { params });
-=======
-<<<<<<< HEAD
-  async list(params?: Record<string, any>): Promise<FinancialRecord[]> {
-    const res = await api.get<FinancialRecord[]>('/financial', { params });
-=======
-  async list(): Promise<FinancialRecord[]> {
-    const res = await api.get<FinancialRecord[]>('/financial');
->>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
->>>>>>> f7c069de203884441268ff5818b449f8c362840e
     return res.data;
   },
   async create(payload: FinancialCreateDTO): Promise<FinancialRecord> {
@@ -61,10 +51,3 @@ export const FinancialService = {
     await api.delete(`/financial/${id}`);
   },
 };
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-
->>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
->>>>>>> f7c069de203884441268ff5818b449f8c362840e

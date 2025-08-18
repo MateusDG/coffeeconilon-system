@@ -1,30 +1,5 @@
-<<<<<<< HEAD
 from pydantic import BaseModel, field_validator, field_serializer, condecimal
 from datetime import date, datetime
-=======
-<<<<<<< HEAD
-from pydantic import BaseModel, field_validator, field_serializer, condecimal
-from datetime import date, datetime
-=======
-<<<<<<< HEAD
-from pydantic import BaseModel, field_validator, field_serializer, condecimal
-from datetime import date, datetime
-=======
-<<<<<<< HEAD
-from pydantic import BaseModel, field_validator, field_serializer, condecimal
-from datetime import date, datetime
-=======
-<<<<<<< HEAD
-from pydantic import BaseModel, field_validator, field_serializer, condecimal
-from datetime import date, datetime
-=======
-from pydantic import BaseModel, field_validator, condecimal
-from datetime import date
->>>>>>> ba42668069ff50cd05bba0251d51dbceb6f042f4
->>>>>>> 6458800b61a86440f725aff4cb0266f369b61b5b
->>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
->>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
->>>>>>> f7c069de203884441268ff5818b449f8c362840e
 from decimal import Decimal
 from typing import Optional
 from app.models.enums import FinancialType, FinancialCategory
@@ -37,19 +12,6 @@ class FinancialBase(BaseModel):
     value: condecimal(gt=0, max_digits=14, decimal_places=2)
     date: date
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 6458800b61a86440f725aff4cb0266f369b61b5b
->>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
->>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
->>>>>>> f7c069de203884441268ff5818b449f8c362840e
     @field_validator("date", mode="before")
     @classmethod
     def parse_date_ddmmyyyy(cls, v):
@@ -63,20 +25,6 @@ class FinancialBase(BaseModel):
             raise ValueError("invalid date format; expected DD/MM/YYYY")
         return v
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-=======
->>>>>>> ba42668069ff50cd05bba0251d51dbceb6f042f4
->>>>>>> 6458800b61a86440f725aff4cb0266f369b61b5b
->>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
->>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
->>>>>>> f7c069de203884441268ff5818b449f8c362840e
     @field_validator("description")
     @classmethod
     def trim_description(cls, v: Optional[str]):
@@ -101,46 +49,17 @@ class FinancialRead(FinancialBase):
     @field_serializer("date")
     def serialize_date(self, v: date):
         return v.strftime("%d/%m/%Y")
-
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
->>>>>>> f7c069de203884441268ff5818b449f8c362840e
     @field_serializer("value")
     def serialize_value(self, v: Decimal):
         # Ensure JSON returns a numeric type for frontend calculations
         return float(v)
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-=======
->>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
->>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
->>>>>>> f7c069de203884441268ff5818b449f8c362840e
 class FinancialUpdate(BaseModel):
     type: Optional[FinancialType] = None
     category: Optional[FinancialCategory] = None
     description: Optional[str] = None
     value: Optional[condecimal(gt=0, max_digits=14, decimal_places=2)] = None
     date: Optional[date] = None
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 6458800b61a86440f725aff4cb0266f369b61b5b
->>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
->>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
->>>>>>> f7c069de203884441268ff5818b449f8c362840e
     crop_id: Optional[int] = None
     lot_id: Optional[int] = None
 
@@ -162,17 +81,3 @@ class FinancialUpdate(BaseModel):
                     continue
             raise ValueError("invalid date format; expected DD/MM/YYYY")
         return v
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-=======
->>>>>>> ba42668069ff50cd05bba0251d51dbceb6f042f4
->>>>>>> 6458800b61a86440f725aff4cb0266f369b61b5b
->>>>>>> f6f6062c025764201dbbdd388fe040b7b4011fa7
->>>>>>> 4914531166dc64f262a3e7a175a794f80a9547a7
->>>>>>> f7c069de203884441268ff5818b449f8c362840e
