@@ -13,12 +13,12 @@ O projeto final tem como tema o desenvolvimento de um sistema web chamado  *Coff
 
 ### **Restrições**
 
-- Gestão avançada de estoque (multi‑depósito, custo médio/PEPS/UEPS, lote/validade): o estoque é apenas quantitativo por produto.
+- Gestão avançada de estoque (multi‑depósito, lote/validade): o estoque é apenas quantitativo por produto.
+- Visualmente não mostra o valor, data e lote na página, `http://localhost:3000/#/financial` ,porém é atualizado no banco de dados,dashboard e relatório.
+- Visualmente não mostra quantidade, data e lote na página, `http://localhost:3000/#/inventory` , porém é atualizado no banco de dados, dashboard e relatório.
 - Produção agrícola detalhada (ordens de serviço, insumos por talhão, apontamentos de campo): não implementado.
 - Offline/PWA e sincronização móvel: o app é web online apenas.
-- Notificações (e‑mail, push) e tarefas agendadas: não implementado.
-- Multi‑moeda, câmbio e tributação avançada: os valores são tratados em BRL (UI) sem conversão/integração fiscal.
-- Papéis/perfis (RBAC) e permissões granulares: não há níveis como admin/gerente/operador.
+- Não há níveis como admin/gerente/operador.
 
 ### **Protótipo**
 
@@ -56,15 +56,48 @@ Os protótipos das páginas principais (Login, Registro, Dashboard, Produtores, 
 
 #### Financeiro
 
-![1755469959514](image/README/1755469959514.png)
+![1755517733376](image/README/1755517733376.png)
 
 #### Estoque
 
-![1755470001002](image/README/1755470001002.png)
+![1755517751692](image/README/1755517751692.png)
 
 #### Relatório
 
-![1755470042303](image/README/1755470042303.png)
+![1755517787677](image/README/1755517787677.png)
+
+#### Banco de Dados(SQLite)
+
+BD localizado em `backend\dev.db`
+
+![1755517870547](image/README/1755517870547.png)
+
+##### Users
+
+![1755517949594](image/README/1755517949594.png)
+
+##### Stocks
+
+![1755517974729](image/README/1755517974729.png)
+
+##### Crops
+
+![1755517991915](image/README/1755517991915.png)
+
+##### Farms
+
+![1755518004369](image/README/1755518004369.png)
+
+##### Financial
+
+![1755518018992](image/README/1755518018992.png)
+
+##### Lots
+
+![1755518034967](image/README/1755518034967.png)
+
+
+
 
 ### **Referencia**
 
